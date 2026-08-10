@@ -234,6 +234,332 @@
         transform: scale(1.01);
     }
 
+    /* ===== CORREÇÃO DAS OPÇÕES DE PAGAMENTO ===== */
+.modal-compra-plans {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 12px 0 16px;
+}
+
+.modal-compra-plan {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    background: white;
+    border: 2px solid #e8e8e8;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    width: 100%;
+    text-align: left;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.modal-compra-plan:hover {
+    border-color: #ff6542;
+    background: #fff8f5;
+    transform: scale(1.01);
+}
+
+.modal-compra-plan .plan-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+}
+
+.modal-compra-plan .plan-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.modal-compra-plan .plan-name {
+    font-weight: 600;
+    font-size: 15px;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.modal-compra-plan .plan-desc {
+    font-size: 12px;
+    color: #888;
+    display: block;
+}
+
+.modal-compra-plan .plan-price {
+    font-weight: 700;
+    color: #ff6542;
+    font-size: 16px;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.modal-compra-plan.popular {
+    border-color: #ff6542;
+    background: #fff8f5;
+}
+
+.modal-compra-plan .popular-tag {
+    font-size: 10px;
+    background: #ff6542;
+    color: white;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-weight: 700;
+    margin-left: 6px;
+    white-space: nowrap;
+}
+
+/* ===== CORREÇÃO PARA TELAS MUITO PEQUENAS ===== */
+@media (max-width: 380px) {
+    .modal-compra-plan {
+        padding: 12px 12px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+    }
+    
+    .modal-compra-plan .plan-left {
+        width: 100%;
+    }
+    
+    .modal-compra-plan .plan-price {
+        text-align: right;
+        width: 100%;
+        padding-top: 4px;
+        border-top: 1px solid #f0f0f0;
+    }
+    
+    .modal-compra-plan .plan-name {
+        font-size: 14px;
+    }
+    
+    .modal-compra-plan .plan-desc {
+        font-size: 11px;
+    }
+    
+    .modal-compra-plan .popular-tag {
+        font-size: 9px;
+        padding: 1px 8px;
+    }
+}
+
+/* ===== CORREÇÃO PARA O MODAL EM TELAS PEQUENAS ===== */
+@media (max-width: 480px) {
+    .modal-compra-content {
+        padding: 24px 16px 20px;
+        max-width: 100%;
+        margin: 10px;
+        border-radius: 20px;
+    }
+    
+    .modal-compra-plans {
+        gap: 8px;
+    }
+    
+    .modal-compra-plan {
+        padding: 12px 14px;
+    }
+    
+    .modal-compra-plan .plan-icon {
+        font-size: 18px;
+    }
+    
+    .modal-compra-plan .plan-name {
+        font-size: 14px;
+    }
+    
+    .modal-compra-plan .plan-price {
+        font-size: 14px;
+    }
+    
+    .modal-compra-title {
+        font-size: 20px;
+    }
+    
+    .modal-compra-btn {
+        font-size: 16px;
+        padding: 14px;
+    }
+}
+
+/* ===== AJUSTE PARA OS DADOS DO CLIENTE EM TELAS PEQUENAS ===== */
+@media (max-width: 480px) {
+    #inputNome,
+    #inputCPF,
+    #inputEmail,
+    #inputTelefone {
+        font-size: 13px !important;
+        padding: 10px !important;
+    }
+}
+/* ===== CORREÇÃO DAS PROMOÇÕES ===== */
+#offer-section .grid.gap-2,
+section[data-offer-layout="unified-v2"] .grid.gap-2 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#offer-section button,
+section[data-offer-layout="unified-v2"] button {
+    display: flex;
+    min-height: 70px;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 16px;
+    border: 2px solid #ff9e76;
+    background: white;
+    padding: 12px 16px;
+    text-align: left;
+    transition: all 0.2s;
+    width: 100%;
+    font-family: inherit;
+    cursor: pointer;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+#offer-section button:hover,
+section[data-offer-layout="unified-v2"] button:hover {
+    border-color: #ff6542;
+    transform: scale(1.01);
+}
+
+#offer-section button .promo-left,
+section[data-offer-layout="unified-v2"] button .promo-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+    flex-wrap: wrap;
+}
+
+#offer-section button .promo-icon,
+section[data-offer-layout="unified-v2"] button .promo-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+#offer-section button .promo-name,
+section[data-offer-layout="unified-v2"] button .promo-name {
+    font-weight: 600;
+    font-size: 15px;
+    color: #172033;
+    flex-shrink: 0;
+}
+
+#offer-section button .promo-tag,
+section[data-offer-layout="unified-v2"] button .promo-tag {
+    display: inline-block;
+    padding: 2px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+#offer-section button .promo-price,
+section[data-offer-layout="unified-v2"] button .promo-price {
+    font-weight: 700;
+    color: #172033;
+    font-size: 16px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+#offer-section button .promo-price svg,
+section[data-offer-layout="unified-v2"] button .promo-price svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+/* ===== CORREÇÃO PARA TELAS PEQUENAS (PROMOÇÕES) ===== */
+@media (max-width: 480px) {
+    #offer-section button,
+    section[data-offer-layout="unified-v2"] button {
+        padding: 12px 14px;
+        min-height: 64px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+    }
+    
+    #offer-section button .promo-left,
+    section[data-offer-layout="unified-v2"] button .promo-left {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    #offer-section button .promo-price,
+    section[data-offer-layout="unified-v2"] button .promo-price {
+        width: 100%;
+        justify-content: flex-end;
+        padding-top: 6px;
+        border-top: 1px solid #f0f0f0;
+        font-size: 15px;
+    }
+    
+    #offer-section button .promo-tag,
+    section[data-offer-layout="unified-v2"] button .promo-tag {
+        font-size: 10px;
+        padding: 1px 10px;
+    }
+    
+    #offer-section button .promo-name,
+    section[data-offer-layout="unified-v2"] button .promo-name {
+        font-size: 14px;
+    }
+}
+
+/* ===== CORREÇÃO PARA TELAS MUITO PEQUENAS (PROMOÇÕES) ===== */
+@media (max-width: 360px) {
+    #offer-section button .promo-left,
+    section[data-offer-layout="unified-v2"] button .promo-left {
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+    
+    #offer-section button .promo-tag,
+    section[data-offer-layout="unified-v2"] button .promo-tag {
+        font-size: 9px;
+        padding: 1px 8px;
+        white-space: normal;
+        max-width: 100%;
+    }
+}
+/* ===== AJUSTE PARA O TIMER EM TELAS PEQUENAS ===== */
+@media (max-width: 480px) {
+    #timerPix {
+        font-size: 20px !important;
+    }
+    
+    #qrCodePix {
+        width: 160px !important;
+        height: 160px !important;
+    }
+    
+    .modal-acesso-link a {
+        font-size: 14px !important;
+        padding: 10px 16px !important;
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
     .modal-compra-plan .plan-left {
         display: flex;
         align-items: center;
@@ -1248,117 +1574,52 @@
                 >
               </div>
               <div class="mt-6 border-t border-[#ececec] pt-5">
-                <p class="mb-3 text-xl font-medium text-[#252525]">Promoções</p>
-                <div class="grid gap-2">
-                  <button
-                    type="button"
-                    class="flex min-h-[78px] items-center justify-between rounded-2xl border border-[#ff9e76] bg-white px-4 text-left transition hover:border-primary sm:px-6"
-                    onclick="abrirModal()"
-                  >
-                    <span class="flex min-w-0 items-center gap-3"
-                      ><span class="text-xl" aria-hidden="true">👑</span
-                      ><b
-                        class="shrink-0 text-base font-medium text-[#172033] sm:text-lg"
-                        >1 Semana</b
-                      ><span
-                        class="max-w-[150px] truncate rounded-full px-3 py-1 text-sm font-medium"
-                        style="
-                          background-color: rgb(255, 240, 232);
-                          color: rgb(156, 77, 24);
-                        "
-                        >Mais popular🔥</span
-                      ></span
-                    ><span
-                      class="inline-flex shrink-0 items-center gap-1 text-base font-semibold text-[#172033] sm:text-lg"
-                      >R$&nbsp;14,90<svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="lucide lucide-arrow-right h-4 w-4 text-primary"
-                        aria-hidden="true"
-                      >
-                        <path d="M5 12h14"></path>
-                        <path d="m12 5 7 7-7 7"></path></svg
-                    ></span></button
-                  ><button
-                    type="button"
-                    class="flex min-h-[78px] items-center justify-between rounded-2xl border border-[#ff9e76] bg-white px-4 text-left transition hover:border-primary sm:px-6"
-                    onclick="abrirModal()"
-                  >
-                    <span class="flex min-w-0 items-center gap-3"
-                      ><b
-                        class="shrink-0 text-base font-medium text-[#172033] sm:text-lg"
-                        >1 Meses</b
-                      ><span
-                        class="max-w-[150px] truncate rounded-full px-3 py-1 text-sm font-medium"
-                        style="
-                          background-color: rgb(208, 244, 255);
-                          color: rgb(156, 77, 24);
-                        "
-                        >Exclusivo</span
-                      ></span
-                    ><span
-                      class="inline-flex shrink-0 items-center gap-1 text-base font-semibold text-[#172033] sm:text-lg"
-                      >R$&nbsp;19,90<svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="lucide lucide-arrow-right h-4 w-4 text-primary"
-                        aria-hidden="true"
-                      >
-                        <path d="M5 12h14"></path>
-                        <path d="m12 5 7 7-7 7"></path></svg
-                    ></span></button
-                  ><button
-                    type="button"
-                    class="flex min-h-[78px] items-center justify-between rounded-2xl border border-[#ff9e76] bg-white px-4 text-left transition hover:border-primary sm:px-6"
-                    onclick="abrirModal()"
-                  >
-                    <span class="flex min-w-0 items-center gap-3"
-                      ><b
-                        class="shrink-0 text-base font-medium text-[#172033] sm:text-lg"
-                        >Vitalicio </b
-                      ><span
-                        class="max-w-[150px] truncate rounded-full px-3 py-1 text-sm font-medium"
-                        style="
-                          background-color: rgb(255, 206, 203);
-                          color: rgb(156, 77, 24);
-                        "
-                        >Melhor oferta⭐️</span
-                      ></span
-                    ><span
-                      class="inline-flex shrink-0 items-center gap-1 text-base font-semibold text-[#172033] sm:text-lg"
-                      >R$&nbsp;29,90<svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="lucide lucide-arrow-right h-4 w-4 text-primary"
-                        aria-hidden="true"
-                      >
-                        <path d="M5 12h14"></path>
-                        <path d="m12 5 7 7-7 7"></path></svg
-                    ></span>
-                  </button>
-                </div>
-              </div>
+    <p class="mb-3 text-xl font-medium text-[#252525]">Promoções</p>
+    <div class="grid gap-2" style="display:flex;flex-direction:column;gap:10px;">
+        <button type="button" class="flex min-h-[70px] items-center justify-between rounded-2xl border-2 border-[#ff9e76] bg-white px-4 text-left transition hover:border-primary sm:px-6" onclick="abrirModal()" style="display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px;width:100%;align-items:center;justify-content:space-between;border-radius:16px;border:2px solid #ff9e76;background:white;text-align:left;cursor:pointer;font-family:inherit;">
+            <span class="flex min-w-0 items-center gap-3" style="display:flex;align-items:center;gap:10px;flex:1;flex-wrap:wrap;min-width:0;">
+                <span class="text-xl" aria-hidden="true" style="flex-shrink:0;">👑</span>
+                <b class="shrink-0 text-base font-medium text-[#172033] sm:text-lg" style="font-weight:600;font-size:15px;color:#172033;flex-shrink:0;">1 Semana</b>
+                <span class="max-w-[150px] truncate rounded-full px-3 py-1 text-sm font-medium" style="display:inline-block;padding:2px 12px;border-radius:20px;font-size:11px;font-weight:600;background-color:rgb(255,240,232);color:rgb(156,77,24);white-space:nowrap;">Mais popular🔥</span>
+            </span>
+            <span class="inline-flex shrink-0 items-center gap-1 text-base font-semibold text-[#172033] sm:text-lg" style="font-weight:700;color:#172033;font-size:16px;flex-shrink:0;display:flex;align-items:center;gap:4px;white-space:nowrap;">
+                R$&nbsp;14,90
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right h-4 w-4 text-primary" aria-hidden="true" style="width:16px;height:16px;flex-shrink:0;">
+                    <path d="M5 12h14"></path>
+                    <path d="m12 5 7 7-7 7"></path>
+                </svg>
+            </span>
+        </button>
+
+        <button type="button" class="flex min-h-[70px] items-center justify-between rounded-2xl border-2 border-[#ff9e76] bg-white px-4 text-left transition hover:border-primary sm:px-6" onclick="abrirModal()" style="display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px;width:100%;align-items:center;justify-content:space-between;border-radius:16px;border:2px solid #ff9e76;background:white;text-align:left;cursor:pointer;font-family:inherit;">
+            <span class="flex min-w-0 items-center gap-3" style="display:flex;align-items:center;gap:10px;flex:1;flex-wrap:wrap;min-width:0;">
+                <b class="shrink-0 text-base font-medium text-[#172033] sm:text-lg" style="font-weight:600;font-size:15px;color:#172033;flex-shrink:0;">1 Mês</b>
+                <span class="max-w-[150px] truncate rounded-full px-3 py-1 text-sm font-medium" style="display:inline-block;padding:2px 12px;border-radius:20px;font-size:11px;font-weight:600;background-color:rgb(208,244,255);color:rgb(156,77,24);white-space:nowrap;">Exclusivo</span>
+            </span>
+            <span class="inline-flex shrink-0 items-center gap-1 text-base font-semibold text-[#172033] sm:text-lg" style="font-weight:700;color:#172033;font-size:16px;flex-shrink:0;display:flex;align-items:center;gap:4px;white-space:nowrap;">
+                R$&nbsp;19,90
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right h-4 w-4 text-primary" aria-hidden="true" style="width:16px;height:16px;flex-shrink:0;">
+                    <path d="M5 12h14"></path>
+                    <path d="m12 5 7 7-7 7"></path>
+                </svg>
+            </span>
+        </button>
+
+        <button type="button" class="flex min-h-[70px] items-center justify-between rounded-2xl border-2 border-[#ff9e76] bg-white px-4 text-left transition hover:border-primary sm:px-6" onclick="abrirModal()" style="display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px;width:100%;align-items:center;justify-content:space-between;border-radius:16px;border:2px solid #ff9e76;background:white;text-align:left;cursor:pointer;font-family:inherit;">
+            <span class="flex min-w-0 items-center gap-3" style="display:flex;align-items:center;gap:10px;flex:1;flex-wrap:wrap;min-width:0;">
+                <b class="shrink-0 text-base font-medium text-[#172033] sm:text-lg" style="font-weight:600;font-size:15px;color:#172033;flex-shrink:0;">Vitalício</b>
+                <span class="max-w-[150px] truncate rounded-full px-3 py-1 text-sm font-medium" style="display:inline-block;padding:2px 12px;border-radius:20px;font-size:11px;font-weight:600;background-color:rgb(255,206,203);color:rgb(156,77,24);white-space:nowrap;">Melhor oferta⭐️</span>
+            </span>
+            <span class="inline-flex shrink-0 items-center gap-1 text-base font-semibold text-[#172033] sm:text-lg" style="font-weight:700;color:#172033;font-size:16px;flex-shrink:0;display:flex;align-items:center;gap:4px;white-space:nowrap;">
+                R$&nbsp;29,90
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right h-4 w-4 text-primary" aria-hidden="true" style="width:16px;height:16px;flex-shrink:0;">
+                    <path d="M5 12h14"></path>
+                    <path d="m12 5 7 7-7 7"></path>
+                </svg>
+            </span>
+        </button>
+    </div>
+</div>
             </section>
             <!-- INSTAGRAM -->
             <section
@@ -1664,7 +1925,7 @@
         <div id="mensagemStatus" style="text-align:center;font-size:14px;margin:8px 0;padding:10px;border-radius:8px;display:none;"></div>
 
         <div class="modal-compra-payment">
-            💳 Cartão · 📱 Pix · 🏦 Boleto
+             📱 Pix 
         </div>
 
         <button id="btnPagar" class="modal-compra-btn" onclick="processarPagamento()">
