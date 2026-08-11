@@ -39,7 +39,20 @@
     <meta property="og:image" content="images/banner.png" />
     <link rel="icon" type="image/png" href="images/favicon.png" />
     <link rel="apple-touch-icon" href="images/favicon.png" />
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-CZCEKMJJW8"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
+      gtag("config", "G-CZCEKMJJW8");
+    </script>
     <script>
       !(function (f, b, e, v, n, t, s) {
         if (f.fbq) return;
@@ -852,15 +865,15 @@
       <header
         class="fixed inset-x-0 top-0 z-50 bg-white shadow-[0_8px_30px_rgba(63,43,30,0.08)]"
       >
-      <div
-  class="flex h-10 items-center justify-center bg-primary px-4 text-center text-white sm:h-11"
->
-  <span
-    class="rounded-full bg-white/12 px-5 py-1 text-xs font-black uppercase tracking-wide sm:px-8 sm:text-base"
-  >
-    Essa promoção é válida até <span id="dataPromocao"></span>
-  </span>
-</div>
+        <div
+          class="flex h-10 items-center justify-center bg-primary px-4 text-center text-white sm:h-11"
+        >
+          <span
+            class="rounded-full bg-white/12 px-5 py-1 text-xs font-black uppercase tracking-wide sm:px-8 sm:text-base"
+          >
+            Essa promoção é válida até <span id="dataPromocao"></span>
+          </span>
+        </div>
         <div
           class="relative mx-auto grid h-[74px] max-w-[90rem] items-center gap-2 px-3 sm:px-5 md:h-24 md:px-8 grid-cols-1"
         >
@@ -3471,18 +3484,18 @@
     <!-- SCRIPT -->
     <!-- ============================================================ -->
     <script>
-  function atualizarDataPromocao() {
-    const hoje = new Date();
+      function atualizarDataPromocao() {
+        const hoje = new Date();
 
-    const dia = String(hoje.getDate()).padStart(2, "0");
-    const mes = String(hoje.getMonth() + 1).padStart(2, "0");
-    const ano = hoje.getFullYear();
+        const dia = String(hoje.getDate()).padStart(2, "0");
+        const mes = String(hoje.getMonth() + 1).padStart(2, "0");
+        const ano = hoje.getFullYear();
 
-    document.getElementById("dataPromocao").textContent =
-      `${dia}/${mes}/${ano}`;
-  }
+        document.getElementById("dataPromocao").textContent =
+          `${dia}/${mes}/${ano}`;
+      }
 
-  atualizarDataPromocao();
+      atualizarDataPromocao();
       // ===== FAQ TOGGLE =====
       function toggleFAQ(button) {
         const isExpanded = button.getAttribute("aria-expanded") === "true";
