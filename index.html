@@ -7,20 +7,72 @@
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
     <title>maryy_velvet - Conteúdo Exclusivo</title>
-    
-    <!-- Meta Tags para SEO e Ads -->
-    <meta name="description" content="Conteúdo exclusivo e criativo para maiores de 18 anos. Entretenimento premium com qualidade." />
+
+    <!-- Meta Tags -->
+    <meta
+      name="description"
+      content="Conteúdo exclusivo e criativo para maiores de 18 anos. Entretenimento premium com qualidade."
+    />
     <meta property="og:title" content="maryy_velvet - Conteúdo Exclusivo" />
-    <meta property="og:description" content="Conteúdo exclusivo e criativo para maiores de 18 anos." />
+    <meta
+      property="og:description"
+      content="Conteúdo exclusivo e criativo para maiores de 18 anos."
+    />
     <meta property="og:image" content="images/banner.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="images/favicon.png" />
     <link rel="apple-touch-icon" href="images/favicon.png" />
 
     <!-- Preload do logo -->
-    <link rel="preload" as="image" href="images/famaflix-logo-Bs6A6sf0.png" />
+    <link
+      rel="preload"
+      as="image"
+      href="images/famaflix-logo-Bs6A6sf0.png"
+    />
+
+    <!-- ===== META PIXEL ===== -->
+    <script>
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = "2.0";
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(
+        window,
+        document,
+        "script",
+        "https://connect.facebook.net/en_US/fbevents.js"
+      );
+
+      fbq("init", "1363457548679560");
+      fbq("track", "PageView");
+    </script>
+
+    <!-- ===== GOOGLE ANALYTICS ===== -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-CZCEKMJJW8"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-CZCEKMJJW8");
+    </script>
 
     <style>
       /* ===== RESET ===== */
@@ -31,8 +83,8 @@
       }
 
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
-                     "Helvetica Neue", Arial, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
         min-height: 100vh;
         display: flex;
         align-items: center;
@@ -43,17 +95,23 @@
         overflow: hidden;
       }
 
-      /* ===== EFEITO DE FUNDO SUTIL ===== */
       body::before {
-        content: '';
+        content: "";
         position: fixed;
         top: -50%;
         left: -50%;
         width: 200%;
         height: 200%;
-        background: 
-          radial-gradient(ellipse at 30% 50%, rgba(255, 101, 66, 0.06) 0%, transparent 60%),
-          radial-gradient(ellipse at 70% 50%, rgba(255, 101, 66, 0.04) 0%, transparent 60%);
+        background: radial-gradient(
+            ellipse at 30% 50%,
+            rgba(255, 101, 66, 0.06) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse at 70% 50%,
+            rgba(255, 101, 66, 0.04) 0%,
+            transparent 60%
+          );
         animation: backgroundPulse 8s ease-in-out infinite alternate;
         z-index: 0;
       }
@@ -69,7 +127,6 @@
         }
       }
 
-      /* ===== CARD PRINCIPAL ===== */
       .age-verification {
         position: relative;
         z-index: 1;
@@ -83,8 +140,7 @@
         padding: 48px 36px 36px;
         text-align: center;
         animation: fadeInUp 0.8s ease;
-        box-shadow: 
-          0 40px 80px rgba(0, 0, 0, 0.8),
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8),
           inset 0 1px 0 rgba(255, 255, 255, 0.05);
       }
 
@@ -99,7 +155,6 @@
         }
       }
 
-      /* ===== LOGO ===== */
       .age-logo {
         width: 160px;
         height: auto;
@@ -115,7 +170,6 @@
         filter: brightness(1.2);
       }
 
-      /* ===== TÍTULO ===== */
       .age-title {
         font-size: 22px;
         font-weight: 600;
@@ -132,7 +186,6 @@
         font-weight: 400;
       }
 
-      /* ===== AVISO ===== */
       .age-warning {
         background: rgba(255, 255, 255, 0.03);
         border: 1px solid rgba(255, 255, 255, 0.06);
@@ -153,7 +206,6 @@
         font-weight: 600;
       }
 
-      /* ===== BOTÃO ===== */
       .age-btn {
         width: 100%;
         padding: 18px 24px;
@@ -173,13 +225,18 @@
       }
 
       .age-btn::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
         transition: left 0.5s ease;
       }
 
@@ -196,7 +253,6 @@
         transform: scale(0.97);
       }
 
-      /* ===== LINKS RODAPÉ ===== */
       .age-footer {
         margin-top: 28px;
         display: flex;
@@ -221,7 +277,6 @@
         color: rgba(255, 255, 255, 0.12);
       }
 
-      /* ===== DIVISOR ===== */
       .age-divider {
         width: 40px;
         height: 2px;
@@ -230,36 +285,29 @@
         border-radius: 2px;
       }
 
-      /* ===== RESPONSIVO ===== */
       @media (max-width: 480px) {
         .age-verification {
           padding: 36px 24px 28px;
           border-radius: 24px;
         }
-
         .age-logo {
           width: 120px;
           margin-bottom: 24px;
         }
-
         .age-title {
           font-size: 18px;
         }
-
         .age-subtitle {
           font-size: 14px;
           margin-bottom: 24px;
         }
-
         .age-btn {
           font-size: 16px;
           padding: 16px;
         }
-
         .age-warning p {
           font-size: 12px;
         }
-
         .age-footer a {
           font-size: 11px;
         }
@@ -269,15 +317,12 @@
         .age-verification {
           padding: 28px 18px 24px;
         }
-
         .age-logo {
           width: 100px;
         }
-
         .age-title {
           font-size: 16px;
         }
-
         .age-btn {
           font-size: 14px;
           padding: 14px;
@@ -288,7 +333,6 @@
 
   <body>
     <div class="age-verification">
-      <!-- LOGO PRIVACY -->
       <img
         src="images/famaflix-logo-Bs6A6sf0.png"
         alt="Privacy"
@@ -298,30 +342,25 @@
         height="auto"
       />
 
-      <!-- DIVISOR -->
       <div class="age-divider"></div>
 
-      <!-- TÍTULO -->
       <h1 class="age-title">Bem-vindo ao Privacy</h1>
       <p class="age-subtitle">
         Conteúdo exclusivo para maiores de 18 anos.
       </p>
 
-      <!-- AVISO -->
       <div class="age-warning">
         <p>
-          📌 Ao continuar, você confirma que tem 18 anos ou mais e concorda 
-          com nossos <strong>Termos de Uso</strong> e 
+          📌 Ao continuar, você confirma que tem 18 anos ou mais e concorda
+          com nossos <strong>Termos de Uso</strong> e
           <strong>Política de Privacidade</strong>.
         </p>
       </div>
 
-      <!-- BOTÃO -->
-      <button class="age-btn" onclick="continuar()">
+      <button class="age-btn" onclick="confirmarIdade()">
         Continuar
       </button>
 
-      <!-- RODAPÉ -->
       <div class="age-footer">
         <a href="/privacidade">Política de Privacidade</a>
         <span>•</span>
@@ -330,11 +369,71 @@
     </div>
 
     <script>
-      function continuar() {
-        window.location.href = 'privacy.html';
+      // ===== PEGA PARÂMETROS DA URL =====
+      function getTrackingParams() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const params = new URLSearchParams();
+
+        const trackingParams = [
+          'fbclid',
+          'utm_source',
+          'utm_medium',
+          'utm_campaign',
+          'utm_content',
+          'utm_term',
+          'ref',
+          'source'
+        ];
+
+        trackingParams.forEach((param) => {
+          const value = urlParams.get(param);
+          if (value) {
+            params.set(param, value);
+          }
+        });
+
+        return params.toString();
       }
 
+      // ===== CONFIRMAR IDADE =====
+      function confirmarIdade() {
+        // 🔥 UM ÚNICO EVENTO - AgeConfirmed (personalizado)
+        if (typeof fbq === 'function') {
+          fbq('trackCustom', 'AgeConfirmed', {
+            content_name: 'Confirmação de Idade',
+            content_type: 'gateway'
+          });
+        }
 
+        // GA4
+        if (typeof gtag === 'function') {
+          gtag('event', 'confirmar_idade', {
+            event_category: 'engajamento',
+            event_label: 'idade_confirmada'
+          });
+        }
+
+        // Preserva parâmetros e redireciona
+        const params = getTrackingParams();
+        const redirectUrl = params
+          ? `privacy.html?${params}`
+          : 'privacy.html';
+
+        window.location.href = redirectUrl;
+      }
+
+      // ===== RASTREIA ACESSO À PÁGINA - ÚNICO ViewContent =====
+      document.addEventListener('DOMContentLoaded', function() {
+        // ✅ SOMENTE UM ViewContent - no carregamento da página
+        if (typeof fbq === 'function') {
+          fbq('track', 'ViewContent', {
+            content_name: 'Página de Verificação de Idade',
+            content_type: 'landing_page'
+          });
+        }
+
+     
+      });
     </script>
   </body>
 </html>
