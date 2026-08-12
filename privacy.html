@@ -3713,6 +3713,340 @@
 
 <script>
   // =============================================
+  // SISTEMA DE PERSISTÊNCIA DE ESTADO
+  // =============================================
+  
+  const SESSION_STATE = {
+    // Chaves usadas no localStorage
+    KEYS: {
+      USER_DATA: 'maryyvelvet_user_data',
+      TRANSACTION: 'maryyvelvet_transaction',
+      PAYMENT_STATUS: 'maryyvelvet_payment_status',
+      PLAN_SELECTED: 'maryyvelvet_plan_selected',
+      TIMER_STATE: 'maryyvelvet_timer_state',
+      PAYMENT_COMPLETED: 'maryyvelvet_pago',
+      TRACKING_DATA: 'maryyvelvet_tracking'
+    },
+
+    // Salvar dados do usuário
+    saveUserData(data) {
+      try {
+        localStorage.setItem(this.KEYS.USER_DATA, JSON.stringify({
+          nome: data.nome || '',
+          cpf: data.cpf || '',
+          email: data.email || '',
+          telefone: data.telefone || '',
+          timestamp: Date.now()
+        }));
+        console.log('💾 Dados do usuário salvos');
+      } catch (error) {
+        console.error('❌ Erro ao salvar dados do usuário:', error);
+      }
+    },
+
+    getUserData() {
+      try {
+        const data = localStorage.getItem(this.KEYS.USER_DATA);
+        return data ? JSON.parse(data) : null;
+      } catch (error) {
+        console.error('❌ Erro ao recuperar dados do usuário:', error);
+        return null;
+      }
+    },
+
+    // Salvar transação
+    saveTransaction(data) {
+      try {
+        localStorage.setItem(this.KEYS.TRANSACTION, JSON.stringify({
+          identifier: data.identifier || '',
+          pixCode: data.pixCode || '',
+          amount: data.amount || 0,
+          timestamp: Date.now()
+        }));
+        console.log('💾 Transação salva');
+      } catch (error) {
+        console.error('❌ Erro ao salvar transação:', error);
+      }
+    },
+
+    getTransaction() {
+      try {
+        const data = localStorage.getItem(this.KEYS.TRANSACTION);
+        return data ? JSON.parse(data) : null;
+      } catch (error) {
+        console.error('❌ Erro ao recuperar transação:', error);
+        return null;
+      }
+    },
+
+    // Salvar status do pagamento
+    savePaymentStatus(status) {
+      try {
+        localStorage.setItem(this.KEYS.PAYMENT_STATUS, JSON.stringify({
+          status: status,
+          timestamp: Date.now()
+        }));
+        console.log('💾 Status do pagamento salvo:', status);
+      } catch (error) {
+        console.error('❌ Erro ao salvar status:', error);
+      }
+    },
+
+    getPaymentStatus() {
+      try {
+        const data = localStorage.getItem(this.KEYS.PAYMENT_STATUS);
+        return data ? JSON.parse(data) : null;
+      } catch (error) {
+        console.error('❌ Erro ao recuperar status:', error);
+        return null;
+      }
+    },
+
+    // Salvar plano selecionado
+    savePlan(plan) {
+      try {
+        localStorage.setItem(this.KEYS.PLAN_SELECTED, JSON.stringify({
+          nome: plan.nome || 'Mensal',
+          valor: plan.valor || 19.9,
+          timestamp: Date.now()
+        }));
+        console.log('💾 Plano salvo:', plan.nome);
+      } catch (error) {
+        console.error('❌ Erro ao salvar plano:', error);
+      }
+    },
+
+    getPlan() {
+      try {
+        const data = localStorage.getItem(this.KEYS.PLAN_SELECTED);
+        return data ? JSON.parse(data) : null;
+      } catch (error) {
+        console.error('❌ Erro ao recuperar plano:', error);
+        return null;
+      }
+    },
+
+    // Salvar estado do timer
+    saveTimerState(tempoRestante, transactionId) {
+      try {
+        localStorage.setItem(this.KEYS.TIMER_STATE, JSON.stringify({
+          tempoRestante: tempoRestante,
+          transactionId: transactionId,
+          timestamp: Date.now()
+        }));
+        console.log('💾 Timer salvo:', tempoRestante, 'segundos');
+      } catch (error) {
+        console.error('❌ Erro ao salvar timer:', error);
+      }
+    },
+
+    getTimerState() {
+      try {
+        const data = localStorage.getItem(this.KEYS.TIMER_STATE);
+        if (!data) return null;
+        
+        const parsed = JSON.parse(data);
+        // Verifica se o timer ainda é válido (menos de 5 minutos)
+        const elapsed = (Date.now() - parsed.timestamp) / 1000;
+        if (elapsed > 300) {
+          // Mais de 5 minutos, timer expirou
+          this.clearTimerState();
+          return null;
+        }
+        
+        // Atualiza o tempo restante baseado no tempo passado
+        parsed.tempoRestante = Math.max(0, parsed.tempoRestante - elapsed);
+        return parsed;
+      } catch (error) {
+        console.error('❌ Erro ao recuperar timer:', error);
+        return null;
+      }
+    },
+
+    clearTimerState() {
+      localStorage.removeItem(this.KEYS.TIMER_STATE);
+    },
+
+    // Limpar todos os dados (exceto pagamento confirmado)
+    clearAll() {
+      localStorage.removeItem(this.KEYS.USER_DATA);
+      localStorage.removeItem(this.KEYS.TRANSACTION);
+      localStorage.removeItem(this.KEYS.PAYMENT_STATUS);
+      localStorage.removeItem(this.KEYS.PLAN_SELECTED);
+      this.clearTimerState();
+      console.log('🧹 Dados temporários limpos');
+    },
+
+    // Verificar se o pagamento já foi confirmado
+    isPaymentCompleted() {
+      return localStorage.getItem(this.KEYS.PAYMENT_COMPLETED) === 'true';
+    },
+
+    setPaymentCompleted() {
+      localStorage.setItem(this.KEYS.PAYMENT_COMPLETED, 'true');
+    }
+  };
+
+  // =============================================
+  // RESTAURAR ESTADO DA SESSÃO
+  // =============================================
+  
+  function restaurarEstadoSessao() {
+    console.log('🔄 Restaurando estado da sessão...');
+    
+    // 1. Verificar se já pagou
+    if (SESSION_STATE.isPaymentCompleted()) {
+      console.log('✅ Pagamento já confirmado anteriormente');
+      liberarConteudo();
+      return;
+    }
+
+    // 2. Restaurar dados do usuário
+    const userData = SESSION_STATE.getUserData();
+    if (userData) {
+      const nomeInput = document.getElementById('inputNome');
+      const cpfInput = document.getElementById('inputCPF');
+      const emailInput = document.getElementById('inputEmail');
+      const telefoneInput = document.getElementById('inputTelefone');
+      
+      if (nomeInput && userData.nome) nomeInput.value = userData.nome;
+      if (cpfInput && userData.cpf) cpfInput.value = userData.cpf;
+      if (emailInput && userData.email) emailInput.value = userData.email;
+      if (telefoneInput && userData.telefone) telefoneInput.value = userData.telefone;
+      
+      console.log('👤 Dados do usuário restaurados');
+    }
+
+    // 3. Restaurar plano selecionado
+    const plan = SESSION_STATE.getPlan();
+    if (plan) {
+      planoSelecionado = plan;
+      
+      // Destacar o plano na UI
+      document.querySelectorAll('.modal-compra-plan').forEach((btn) => {
+        const planName = btn.getAttribute('data-plan') || '';
+        if (planName === plan.nome) {
+          btn.style.borderColor = '#ff6542';
+          btn.style.background = '#fff8f5';
+        } else {
+          btn.style.borderColor = '#e8e8e8';
+          btn.style.background = 'white';
+        }
+      });
+      
+      const btn = document.getElementById('btnPagar');
+      if (btn) {
+        btn.textContent = `🔓 Pagar R$ ${plan.valor.toFixed(2)}`;
+        btn.disabled = false;
+        btn.style.background = 'linear-gradient(135deg, #ff6542, #ff4d1a)';
+        btn.style.color = 'white';
+      }
+      
+      console.log('📋 Plano restaurado:', plan.nome);
+    }
+
+    // 4. Restaurar transação pendente
+    const transaction = SESSION_STATE.getTransaction();
+    const paymentStatus = SESSION_STATE.getPaymentStatus();
+    
+    if (transaction && paymentStatus && paymentStatus.status === 'pending') {
+      console.log('🔄 Transação pendente encontrada:', transaction.identifier);
+      
+      // Restaurar área do Pix
+      const areaPix = document.getElementById('areaPix');
+      const qrImg = document.getElementById('qrCodePix');
+      const codigoPix = document.getElementById('codigoPix');
+      const statusPix = document.getElementById('statusPix');
+      const valorPix = document.getElementById('valorPix');
+      
+      if (areaPix) areaPix.style.display = 'block';
+      if (qrImg) syncpay.gerarQRCode(transaction.pixCode, qrImg);
+      if (codigoPix) codigoPix.textContent = transaction.pixCode;
+      if (valorPix) valorPix.textContent = transaction.amount.toFixed(2);
+      if (statusPix) {
+        statusPix.innerHTML = '🔄 Verificando pagamento...';
+      }
+      
+      // Restaurar timer
+      const timerState = SESSION_STATE.getTimerState();
+      if (timerState && timerState.transactionId === transaction.identifier) {
+        tempoRestante = timerState.tempoRestante;
+        console.log('⏱️ Timer restaurado:', tempoRestante, 'segundos');
+        iniciarTimer();
+      } else {
+        // Iniciar timer do zero se não tiver estado salvo
+        tempoRestante = 300;
+        iniciarTimer();
+      }
+      
+      // Atualizar botão
+      const btn = document.getElementById('btnPagar');
+      if (btn) {
+        btn.textContent = '⏳ Aguardando pagamento...';
+        btn.style.background = '#ffc107';
+        btn.style.color = '#333';
+        btn.disabled = true;
+      }
+      
+      // Continuar monitorando
+      syncpay.transaction = transaction;
+      syncpay.monitorarPagamento(transaction.identifier, function (resposta) {
+        if (resposta.success) {
+          // Pagamento confirmado
+          clearInterval(timerInterval);
+          SESSION_STATE.setPaymentCompleted();
+          SESSION_STATE.clearAll();
+          
+          showToast('🎉 Pagamento confirmado!', 'success', 5000);
+          liberarConteudo();
+          
+          if (statusPix) statusPix.innerHTML = '✅ Pagamento aprovado!';
+          if (btn) {
+            btn.textContent = '✅ Aprovado!';
+            btn.style.background = '#22c55e';
+            btn.style.color = 'white';
+          }
+          
+          setTimeout(() => {
+            fecharModal();
+          }, 3000);
+        } else if (resposta.error) {
+          showToast('❌ ' + resposta.error, 'error');
+          if (btn) {
+            btn.textContent = '🔓 Tentar novamente';
+            btn.disabled = false;
+            btn.style.background = 'linear-gradient(135deg, #ff6542, #ff4d1a)';
+            btn.style.color = 'white';
+          }
+          SESSION_STATE.clearAll();
+        }
+      });
+      
+      console.log('📊 Monitoramento restaurado');
+    } else {
+      // Se não tem transação pendente, limpar dados antigos
+      SESSION_STATE.clearAll();
+    }
+  }
+
+  // =============================================
+  // LIBERAR CONTEÚDO
+  // =============================================
+  
+  function liberarConteudo() {
+    document.querySelectorAll('.group').forEach((el) => {
+      el.classList.add('conteudo-liberado');
+    });
+    const btnTelegram = document.getElementById('btnTelegram');
+    if (btnTelegram) btnTelegram.classList.add('visible');
+    
+    const acessoLink = document.getElementById('modalAcessoLink');
+    if (acessoLink) acessoLink.classList.add('visible');
+    
+    localStorage.setItem('maryyvelvet_pago', 'true');
+  }
+
+  // =============================================
   // GOOGLE ANALYTICS 4 - EVENT TRACKING
   // =============================================
   function trackGA4Event(eventName, params = {}) {
@@ -3733,7 +4067,6 @@
       return;
     }
 
-    // Mapeamento para eventos padrão do Meta
     const eventMap = {
       'page_view': 'ViewContent',
       'view_content': 'ViewContent',
@@ -3752,13 +4085,11 @@
     const metaEvent = eventMap[eventName];
 
     if (!metaEvent) {
-      // Evento personalizado
       fbq('trackCustom', eventName, params);
       console.log(`🔵 Meta Custom: ${eventName}`, params);
       return;
     }
 
-    // Evento padrão do Meta
     const eventParams = {
       content_name: params.content_name || params.page_title || params.plan_name || eventName,
       content_category: params.content_category || params.page_type || 'geral',
@@ -3767,7 +4098,6 @@
       ...params
     };
 
-    // Remove campos que não são do Meta
     delete eventParams.page_title;
     delete eventParams.page_type;
     delete eventParams.plan_name;
@@ -3780,10 +4110,7 @@
   // TRACKING DUPLO (GA4 + META)
   // =============================================
   function trackEvent(eventName, params = {}) {
-    // GA4
     trackGA4Event(eventName, params);
-    
-    // Meta Pixel
     trackMetaEvent(eventName, params);
   }
 
@@ -3802,7 +4129,6 @@
       utm_term: params.get("utm_term") || "",
     };
 
-    // Salva no localStorage
     Object.keys(tracking).forEach((key) => {
       if (tracking[key]) {
         localStorage.setItem(key, tracking[key]);
@@ -3862,7 +4188,6 @@
       try {
         console.log("📤 Enviando para o back-end:", dados);
 
-        // TRACK - Início do checkout
         trackEvent('begin_checkout', {
           currency: 'BRL',
           value: dados.valor,
@@ -3914,7 +4239,10 @@
           amount: resultado.data.amount,
         };
 
-        // TRACK - Pix gerado
+        // SALVAR NO LOCALSTORAGE
+        SESSION_STATE.saveTransaction(this.transaction);
+        SESSION_STATE.savePaymentStatus('pending');
+
         trackEvent('generate_pix', {
           transaction_id: this.transaction.identifier,
           value: this.transaction.amount,
@@ -3976,7 +4304,9 @@
           this.monitor = null;
           console.log("✅ Pagamento confirmado!");
           
-          // 🔥 PURCHASE - Conversão real
+          SESSION_STATE.setPaymentCompleted();
+          SESSION_STATE.savePaymentStatus('paid');
+          
           trackEvent('purchase', {
             transaction_id: identifier,
             value: this.transaction?.amount || 0,
@@ -4000,6 +4330,8 @@
           clearInterval(this.monitor);
           this.monitor = null;
           console.log("⏱️ Tempo esgotado");
+          
+          SESSION_STATE.savePaymentStatus('expired');
           
           trackEvent('payment_timeout', {
             transaction_id: identifier
@@ -4134,6 +4466,9 @@
   function selecionarPlano(event, nome, valor) {
     planoSelecionado = { nome, valor };
 
+    // SALVAR NO LOCALSTORAGE
+    SESSION_STATE.savePlan(planoSelecionado);
+
     document.querySelectorAll(".modal-compra-plan").forEach((btn) => {
       btn.style.borderColor = "#e8e8e8";
       btn.style.background = "white";
@@ -4169,6 +4504,9 @@
     const cpf = document.getElementById("inputCPF")?.value.trim() || "";
     const email = document.getElementById("inputEmail")?.value.trim() || "";
     const telefone = document.getElementById("inputTelefone")?.value.trim() || "";
+
+    // SALVAR DADOS DO USUÁRIO
+    SESSION_STATE.saveUserData({ nome, cpf, email, telefone });
 
     trackEvent('form_validation_start', {
       plan: planoSelecionado.nome
@@ -4254,6 +4592,9 @@
         statusPix.innerHTML = `✅ Pix gerado! Aguardando pagamento...`;
       }
 
+      // SALVAR TIMER
+      tempoRestante = 300;
+      SESSION_STATE.saveTimerState(tempoRestante, pix.identifier);
       iniciarTimer();
 
       if (mensagem) {
@@ -4270,9 +4611,9 @@
       
       syncpay.monitorarPagamento(pix.identifier, function (resposta) {
         if (resposta.success) {
-          // PURCHASE já é disparado dentro do monitorarPagamento
-          
           clearInterval(timerInterval);
+          SESSION_STATE.clearTimerState();
+          SESSION_STATE.clearAll();
 
           showToast(
             "🎉 Pagamento confirmado com sucesso!",
@@ -4294,13 +4635,7 @@
           const acessoLink = document.getElementById("modalAcessoLink");
           if (acessoLink) acessoLink.classList.add("visible");
 
-          document.querySelectorAll(".group").forEach((el) => {
-            el.classList.add("conteudo-liberado");
-          });
-          const btnTelegram = document.getElementById("btnTelegram");
-          if (btnTelegram) btnTelegram.classList.add("visible");
-
-          localStorage.setItem("maryyvelvet_pago", "true");
+          liberarConteudo();
 
           trackEvent('content_unlocked', {
             plan: planoSelecionado.nome,
@@ -4347,7 +4682,6 @@
   }
 
   function iniciarTimer() {
-    tempoRestante = 300;
     const timerEl = document.getElementById("timerPix");
     const tempoEl = document.getElementById("tempoRestante");
 
@@ -4360,6 +4694,14 @@
       timerEl.textContent = `⏱️ ${String(minutos).padStart(2, "0")}:${String(segundos).padStart(2, "0")}`;
       tempoEl.textContent = `${minutos} minuto${minutos > 1 ? "s" : ""} e ${segundos} segundo${segundos > 1 ? "s" : ""}`;
 
+      // SALVAR TIMER A CADA 5 SEGUNDOS
+      if (tempoRestante % 5 === 0) {
+        const transaction = SESSION_STATE.getTransaction();
+        if (transaction) {
+          SESSION_STATE.saveTimerState(tempoRestante, transaction.identifier);
+        }
+      }
+
       if (tempoRestante <= 0) {
         clearInterval(timerInterval);
         timerEl.textContent = "⏱️ 00:00";
@@ -4367,6 +4709,8 @@
         document.getElementById("statusPix").innerHTML =
           '⏰ Tempo esgotado! Clique em "Tentar novamente"';
         showToast("⏰ Tempo esgotado! Gere um novo Pix.", "warning");
+        
+        SESSION_STATE.clearTimerState();
         
         trackEvent('pix_timer_expired', {
           transaction_id: syncpay.transaction?.identifier || 'unknown'
@@ -4378,20 +4722,11 @@
   }
 
   function verificarPagamentoExistente() {
-    const pago = localStorage.getItem("maryyvelvet_pago") === "true";
-    
-    if (pago) {
-      document.querySelectorAll(".group").forEach((el) => {
-        el.classList.add("conteudo-liberado");
-      });
-      const btnTelegram = document.getElementById("btnTelegram");
-      if (btnTelegram) btnTelegram.classList.add("visible");
-      
-      trackEvent('existing_access', {
-        source: 'local_storage'
-      });
+    if (SESSION_STATE.isPaymentCompleted()) {
+      liberarConteudo();
+      return true;
     }
-    return pago;
+    return false;
   }
 
   function trackScroll() {
@@ -4452,7 +4787,7 @@
   document.addEventListener("DOMContentLoaded", function () {
     console.log("🚀 Página carregada!");
     
-    // 🔥 META PIXEL - APENAS ViewContent (PageView já está no <head>)
+    // 🔥 META PIXEL - APENAS ViewContent
     if (typeof fbq === 'function') {
       fbq('track', 'ViewContent', {
         content_name: 'Privacy - Conteúdo Exclusivo',
@@ -4460,7 +4795,6 @@
       });
     }
     
-    // GA4
     trackGA4Event('page_view', {
       page_title: document.title,
       page_location: window.location.href
@@ -4470,7 +4804,10 @@
     console.log("📊 GA4 + Meta Tracking ativo");
 
     getTrackingData();
-    verificarPagamentoExistente();
+    
+    // 🔄 RESTAURAR ESTADO DA SESSÃO
+    restaurarEstadoSessao();
+    
     trackScroll();
     trackTimeOnPage();
 
@@ -4513,20 +4850,27 @@
       });
     });
 
-    let modalExibida = false;
-    setTimeout(function () {
-      if (!modalExibida && !verificarPagamentoExistente()) {
-        modalExibida = true;
-        console.log("⏰ Abrindo modal após 1 minuto");
-        
-        trackEvent('auto_modal_trigger', {
-          delay_seconds: 60,
-          user_type: 'new_visitor'
-        });
-        
-        abrirModal();
-      }
-    }, 60000);
+    // Só abre modal automático se não tiver pagamento pendente
+    const transaction = SESSION_STATE.getTransaction();
+    const paymentStatus = SESSION_STATE.getPaymentStatus();
+    const hasPendingPayment = transaction && paymentStatus && paymentStatus.status === 'pending';
+    
+    if (!hasPendingPayment && !SESSION_STATE.isPaymentCompleted()) {
+      let modalExibida = false;
+      setTimeout(function () {
+        if (!modalExibida) {
+          modalExibida = true;
+          console.log("⏰ Abrindo modal após 1 minuto");
+          
+          trackEvent('auto_modal_trigger', {
+            delay_seconds: 60,
+            user_type: 'new_visitor'
+          });
+          
+          abrirModal();
+        }
+      }, 60000);
+    }
 
     console.log("✅ Sistema pronto!");
   });
