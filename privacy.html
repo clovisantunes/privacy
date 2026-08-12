@@ -3706,7 +3706,7 @@
     <!-- ============================================================ -->
     <!-- SCRIPT -->
     <!-- ============================================================ -->
-    <script>
+<script>
       function atualizarDataPromocao() {
         const hoje = new Date();
 
@@ -3736,6 +3736,19 @@
           answer.style.maxHeight = "0";
         }
       }
+
+      // =============================================
+      // GOOGLE ANALYTICS 4 - EVENT TRACKING
+      // =============================================
+      function trackGA4Event(eventName, params = {}) {
+        if (typeof gtag === 'function') {
+          gtag('event', eventName, params);
+          console.log(`📊 GA4 Event: ${eventName}`, params);
+        } else {
+          console.warn('⚠️ gtag não encontrado');
+        }
+      }
+
       // =============================================
       // TOAST SYSTEM
       // =============================================
@@ -3784,6 +3797,13 @@
           }
         });
 
+        // GA4 - Track page view com parâmetros UTM
+        trackGA4Event('page_view', {
+          page_title: document.title,
+          page_location: window.location.href,
+          ...tracking
+        });
+
         return tracking;
       }
 
@@ -3812,6 +3832,18 @@
         async gerarPix(dados) {
           try {
             console.log("📤 Enviando para o back-end:", dados);
+
+            // GA4 - Início do processo de pagamento
+            trackGA4Event('begin_checkout', {
+              currency: 'BRL',
+              value: dados.valor,
+              items: [{
+                item_name: dados.descricao || 'Conteúdo exclusivo',
+                item_category: 'Assinatura VIP',
+                price: dados.valor,
+                quantity: 1
+              }]
+            });
 
             const response = await fetch(
               `${this.config.backendURL}/api/pagar`,
@@ -3850,9 +3882,22 @@
               amount: resultado.data.amount,
             };
 
+            // GA4 - Pix gerado com sucesso
+            trackGA4Event('generate_pix', {
+              transaction_id: this.transaction.identifier,
+              value: this.transaction.amount,
+              currency: 'BRL'
+            });
+
             return this.transaction;
           } catch (error) {
             console.error("❌ Erro:", error);
+            
+            // GA4 - Erro ao gerar Pix
+            trackGA4Event('generate_pix_error', {
+              error_message: error.message
+            });
+            
             throw error;
           }
         }
@@ -3896,6 +3941,20 @@
               clearInterval(this.monitor);
               this.monitor = null;
               console.log("✅ Pagamento confirmado!");
+              
+              // GA4 - Purchase confirmado
+              trackGA4Event('purchase', {
+                transaction_id: identifier,
+                value: this.transaction?.amount || 0,
+                currency: 'BRL',
+                items: [{
+                  item_name: 'Conteúdo VIP',
+                  item_category: 'Assinatura',
+                  price: this.transaction?.amount || 0,
+                  quantity: 1
+                }]
+              });
+              
               callback({ success: true, status });
               return;
             }
@@ -3904,6 +3963,12 @@
               clearInterval(this.monitor);
               this.monitor = null;
               console.log("⏱️ Tempo esgotado");
+              
+              // GA4 - Tempo de pagamento esgotado
+              trackGA4Event('payment_timeout', {
+                transaction_id: identifier
+              });
+              
               callback({
                 success: false,
                 error: "⏱️ Tempo de pagamento excedido",
@@ -3917,6 +3982,11 @@
             showToast("❌ Nenhum Pix gerado!", "error");
             return;
           }
+
+          // GA4 - Copiar Pix
+          trackGA4Event('copy_pix', {
+            transaction_id: this.transaction.identifier
+          });
 
           if (navigator.clipboard) {
             navigator.clipboard
@@ -3994,6 +4064,12 @@
         }
         modal.classList.add("active");
         document.body.style.overflow = "hidden";
+        
+        // GA4 - Modal aberta
+        trackGA4Event('modal_open', {
+          source: 'auto_trigger'
+        });
+        
         console.log("✅ Modal aberta");
       }
 
@@ -4005,6 +4081,12 @@
         modal.classList.remove("active");
         document.body.style.overflow = "";
         syncpay.pararMonitoramento();
+        
+        // GA4 - Modal fechada
+        trackGA4Event('modal_close', {
+          source: event ? 'click' : 'auto'
+        });
+        
         console.log("✅ Modal fechada");
       }
 
@@ -4029,6 +4111,14 @@
           btn.style.background = "linear-gradient(135deg, #ff6542, #ff4d1a)";
           btn.style.color = "white";
         }
+        
+        // GA4 - Plano selecionado
+        trackGA4Event('select_plan', {
+          plan_name: nome,
+          plan_value: valor,
+          currency: 'BRL'
+        });
+        
         console.log(`✅ Plano selecionado: ${nome} - R$ ${valor.toFixed(2)}`);
       }
 
@@ -4040,22 +4130,50 @@
         const telefone =
           document.getElementById("inputTelefone")?.value.trim() || "";
 
+        // GA4 - Validação de formulário
+        trackGA4Event('form_validation_start', {
+          plan: planoSelecionado.nome
+        });
+
         if (!nome || nome.length < 3) {
           showToast("❌ Digite seu nome completo", "error");
+          trackGA4Event('form_validation_error', {
+            field: 'nome',
+            error: 'nome_incompleto'
+          });
           return;
         }
         if (!validarCPF(cpf)) {
           showToast("❌ CPF inválido", "error");
+          trackGA4Event('form_validation_error', {
+            field: 'cpf',
+            error: 'cpf_invalido'
+          });
           return;
         }
         if (!email || !email.includes("@")) {
           showToast("❌ E-mail inválido", "error");
+          trackGA4Event('form_validation_error', {
+            field: 'email',
+            error: 'email_invalido'
+          });
           return;
         }
         if (!telefone || telefone.length < 10) {
           showToast("❌ Telefone inválido", "error");
+          trackGA4Event('form_validation_error', {
+            field: 'telefone',
+            error: 'telefone_invalido'
+          });
           return;
         }
+
+        // GA4 - Formulário validado com sucesso
+        trackGA4Event('form_validation_success', {
+          plan: planoSelecionado.nome,
+          has_cpf: !!cpf,
+          has_email: !!email
+        });
 
         const btn = document.getElementById("btnPagar");
         const mensagem = document.getElementById("mensagemStatus");
@@ -4109,11 +4227,14 @@
           btn.style.color = "#333";
           syncpay.monitorarPagamento(pix.identifier, function (resposta) {
             if (resposta.success) {
+              // ===== GA4 - PURCHASE (já está dentro do monitorarPagamento) =====
               // ===== META PIXEL - PURCHASE =====
-              fbq("track", "Purchase", {
-                value: planoSelecionado.valor,
-                currency: "BRL",
-              });
+              if (typeof fbq === 'function') {
+                fbq("track", "Purchase", {
+                  value: planoSelecionado.valor,
+                  currency: "BRL",
+                });
+              }
 
               // Para o timer
               clearInterval(timerInterval);
@@ -4147,6 +4268,12 @@
               if (btnTelegram) btnTelegram.classList.add("visible");
 
               localStorage.setItem("maryyvelvet_pago", "true");
+
+              // GA4 - Conteúdo liberado
+              trackGA4Event('content_unlocked', {
+                plan: planoSelecionado.nome,
+                user_email: email
+              });
 
               // Fecha modal após 3 segundos
               setTimeout(() => {
@@ -4191,15 +4318,21 @@
 
       // ===== VERIFICAR PAGAMENTO ANTERIOR =====
       function verificarPagamentoExistente() {
-        if (localStorage.getItem("maryyvelvet_pago") === "true") {
+        const pago = localStorage.getItem("maryyvelvet_pago") === "true";
+        
+        if (pago) {
           document.querySelectorAll(".group").forEach((el) => {
             el.classList.add("conteudo-liberado");
           });
           const btnTelegram = document.getElementById("btnTelegram");
           if (btnTelegram) btnTelegram.classList.add("visible");
-          return true;
+          
+          // GA4 - Usuário com acesso prévio
+          trackGA4Event('existing_access', {
+            source: 'local_storage'
+          });
         }
-        return false;
+        return pago;
       }
 
       // ===== TIMER =====
@@ -4227,10 +4360,85 @@
             document.getElementById("statusPix").innerHTML =
               '⏰ Tempo esgotado! Clique em "Tentar novamente"';
             showToast("⏰ Tempo esgotado! Gere um novo Pix.", "warning");
+            
+            // GA4 - Timer expirou
+            trackGA4Event('pix_timer_expired', {
+              transaction_id: syncpay.transaction?.identifier || 'unknown'
+            });
           }
 
           tempoRestante--;
         }, 1000);
+      }
+
+      // =============================================
+      // FUNÇÕES ADICIONAIS DE TRACKING
+      // =============================================
+      
+      // Track de cliques em elementos específicos
+      function trackClick(element, eventName, params = {}) {
+        element.addEventListener('click', function(e) {
+          trackGA4Event(eventName, {
+            element_id: this.id,
+            element_class: this.className,
+            element_text: this.textContent?.trim() || '',
+            ...params
+          });
+        });
+      }
+
+      // Track de scroll
+      function trackScroll() {
+        let scrollTracked = {
+          25: false,
+          50: false,
+          75: false,
+          100: false
+        };
+
+        window.addEventListener('scroll', function() {
+          const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+          
+          if (scrollPercent >= 25 && !scrollTracked[25]) {
+            scrollTracked[25] = true;
+            trackGA4Event('scroll_depth', { depth: '25%' });
+          }
+          if (scrollPercent >= 50 && !scrollTracked[50]) {
+            scrollTracked[50] = true;
+            trackGA4Event('scroll_depth', { depth: '50%' });
+          }
+          if (scrollPercent >= 75 && !scrollTracked[75]) {
+            scrollTracked[75] = true;
+            trackGA4Event('scroll_depth', { depth: '75%' });
+          }
+          if (scrollPercent >= 100 && !scrollTracked[100]) {
+            scrollTracked[100] = true;
+            trackGA4Event('scroll_depth', { depth: '100%' });
+          }
+        });
+      }
+
+      // Track de tempo na página
+      function trackTimeOnPage() {
+        let startTime = Date.now();
+        let intervals = [30, 60, 120, 300]; // segundos
+
+        intervals.forEach(interval => {
+          setTimeout(() => {
+            trackGA4Event('time_on_page', {
+              seconds: interval,
+              minutes: Math.floor(interval / 60)
+            });
+          }, interval * 1000);
+        });
+
+        window.addEventListener('beforeunload', function() {
+          const timeSpent = Math.floor((Date.now() - startTime) / 1000);
+          trackGA4Event('session_end', {
+            total_seconds: timeSpent,
+            total_minutes: Math.floor(timeSpent / 60)
+          });
+        });
       }
 
       // =============================================
@@ -4239,8 +4447,15 @@
       document.addEventListener("DOMContentLoaded", function () {
         console.log("🚀 Página carregada!");
         console.log("🔗 Backend:", BACKEND_URL);
+        console.log("📊 GA4 Tracking ativo");
 
         verificarPagamentoExistente();
+        
+        // Inicia tracking de scroll
+        trackScroll();
+        
+        // Inicia tracking de tempo na página
+        trackTimeOnPage();
 
         const cpfInput = document.getElementById("inputCPF");
         const telefoneInput = document.getElementById("inputTelefone");
@@ -4257,13 +4472,30 @@
           });
         }
 
+        // Track de cliques em elementos do FAQ
         document.querySelectorAll(".faq-question").forEach((button) => {
           button.addEventListener("click", function () {
             const isExpanded = this.getAttribute("aria-expanded") === "true";
             const newState = !isExpanded;
             this.setAttribute("aria-expanded", newState);
-            const toggle = this.querySelector("span:first-child");
+            const toggle = this.querySelector(".faq-toggle");
             if (toggle) toggle.textContent = newState ? "−" : "+";
+            
+            // GA4 - FAQ aberto/fechado
+            trackGA4Event('faq_toggle', {
+              expanded: newState,
+              question: this.textContent?.trim() || ''
+            });
+          });
+        });
+
+        // Track de cliques no botão "Comprar" que abrem o modal
+        document.querySelectorAll('[onclick*="abrirModal"]').forEach(el => {
+          el.addEventListener('click', function() {
+            trackGA4Event('cta_click', {
+              button_name: 'abrir_modal',
+              button_text: this.textContent?.trim() || ''
+            });
           });
         });
 
@@ -4272,6 +4504,13 @@
           if (!modalExibida && !verificarPagamentoExistente()) {
             modalExibida = true;
             console.log("⏰ Abrindo modal após 1 minuto");
+            
+            // GA4 - Modal automática após 1 minuto
+            trackGA4Event('auto_modal_trigger', {
+              delay_seconds: 60,
+              user_type: 'new_visitor'
+            });
+            
             abrirModal();
           }
         }, 60000);
@@ -4290,6 +4529,7 @@
       window.processarPagamento = processarPagamento;
       window.copiarPix = copiarPix;
       window.showToast = showToast;
+      window.trackGA4Event = trackGA4Event;
     </script>
   </body>
 </html>
