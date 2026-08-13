@@ -4067,20 +4067,17 @@
       return;
     }
 
-    const eventMap = {
-      'page_view': 'ViewContent',
-      'view_content': 'ViewContent',
-      'modal_open': 'ViewContent',
-      'select_plan': 'InitiateCheckout',
-      'begin_checkout': 'InitiateCheckout',
-      'form_validation_success': 'AddPaymentInfo',
-      'generate_pix': 'AddPaymentInfo',
-      'purchase': 'Purchase',
-      'copy_pix': 'CustomizeProduct',
-      'cta_click': 'Lead',
-      'confirmar_idade': 'Lead',
-      'modal_close': 'CustomizeProduct'
-    };
+const eventMap = {
+  'page_view': 'ViewContent',
+  'view_content': 'ViewContent',
+  'modal_open': 'ViewContent',
+  'select_plan': 'InitiateCheckout',   // ← ÚNICO InitiateCheckout
+  // 'begin_checkout': 'InitiateCheckout', ← REMOVA ESTA LINHA
+  'form_validation_success': 'AddPaymentInfo',
+  'generate_pix': 'GeneratePix',       // ← Evento personalizado
+  'purchase': 'Purchase',
+  // ...
+};
 
     const metaEvent = eventMap[eventName];
 
