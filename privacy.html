@@ -400,6 +400,138 @@
 /* ============================================
    4. TOAST (NOTIFICAÇÕES)
    ============================================ */
+
+
+/* ============================================
+   TOASTS DE COMPRA (canto inferior esquerdo)
+   ============================================ */
+.purchase-toast-container {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 320px;
+    width: 100%;
+    pointer-events: none;
+}
+
+.purchase-toast {
+    pointer-events: auto;
+    background: white;
+    border-left: 4px solid #ff6542;
+    border-radius: 12px;
+    padding: 14px 18px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    animation: slideInLeft 0.5s ease forwards;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+}
+
+.purchase-toast .toast-icon {
+    width: 36px;
+    height: 36px;
+    background: #ff6542;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: white;
+    flex-shrink: 0;
+}
+
+.purchase-toast .toast-content {
+    flex: 1;
+}
+
+.purchase-toast .toast-content .toast-name {
+    font-weight: 700;
+    font-size: 14px;
+    color: #1a1a1a;
+}
+
+.purchase-toast .toast-content .toast-plan {
+    font-size: 12px;
+    color: #ff6542;
+    font-weight: 600;
+}
+
+.purchase-toast .toast-content .toast-time {
+    font-size: 10px;
+    color: #999;
+    display: block;
+    margin-top: 2px;
+}
+
+.purchase-toast .toast-close {
+    background: none;
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0 4px;
+    transition: color 0.2s;
+    flex-shrink: 0;
+}
+
+.purchase-toast .toast-close:hover {
+    color: #666;
+}
+
+.purchase-toast.toast-hidden {
+    animation: slideOutLeft 0.5s ease forwards;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-60px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes slideOutLeft {
+    from {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-60px) scale(0.9);
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .purchase-toast-container {
+        bottom: 10px;
+        left: 10px;
+        max-width: 280px;
+    }
+    
+    .purchase-toast {
+        padding: 12px 14px;
+    }
+    
+    .purchase-toast .toast-content .toast-name {
+        font-size: 13px;
+    }
+    
+    .purchase-toast .toast-content .toast-plan {
+        font-size: 11px;
+    }
+}
+
+
+
 .toast-container {
     position: fixed;
     bottom: 30px;
@@ -5565,6 +5697,106 @@ document.addEventListener("DOMContentLoaded", function () {
         question: button.textContent?.trim() || ''
     });
 }
+// =============================================
+// TOASTS DE COMPRA FALSOS
+// =============================================
+
+const NOMES = [
+    'Carlos Silva', 'Rafael Santos', 'Lucas Oliveira', 'Pedro Costa',
+    'Bruno Lima', 'Diego Souza', 'Felipe Rocha', 'André Martins',
+    'Thiago Almeida', 'Rodrigo Ferreira', 'Gustavo Pereira', 'Vinicius Ramos',
+    'Daniel Barros', 'Matheus Cardoso', 'João Pedro', 'Gabriel Mendes',
+    'Ricardo Nunes', 'Eduardo Cruz', 'Alexandre Machado', 'César Gomes',
+    'Samuel Dias', 'Rômulo Vieira', 'Ícaro Neves', 'Túlio Monteiro'
+];
+
+const PLANOS = [
+    '15 Dias', '30 Dias', '3 Meses', '6 Meses'
+];
+
+const PLANOS_VALORES = {
+    '15 Dias': 'R$ 9,90',
+    '30 Dias': 'R$ 14,90',
+    '3 Meses': 'R$ 32,90',
+    '6 Meses': 'R$ 24,90'
+};
+
+let toastQueue = [];
+let isToastShowing = false;
+
+function getRandomItem(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function getRandomTime() {
+    // Entre 8 e 25 segundos
+    return 8000 + Math.random() * 17000;
+}
+
+function getTimeAgo() {
+    const minutos = Math.floor(Math.random() * 5) + 1;
+    return `há ${minutos} minuto${minutos > 1 ? 's' : ''}`;
+}
+
+function showPurchaseToast() {
+    const container = document.getElementById('purchaseToastContainer');
+    if (!container) return;
+
+    const nome = getRandomItem(NOMES);
+    const plano = getRandomItem(PLANOS);
+    const valor = PLANOS_VALORES[plano] || 'R$ 9,90';
+    const timeAgo = getTimeAgo();
+
+    const toast = document.createElement('div');
+    toast.className = 'purchase-toast';
+    toast.innerHTML = `
+        <div class="toast-icon">🛒</div>
+        <div class="toast-content">
+            <div class="toast-name">${nome}</div>
+            <div class="toast-plan">comprou o plano ${plano} - ${valor}</div>
+            <span class="toast-time">${timeAgo}</span>
+        </div>
+        <button class="toast-close" onclick="this.closest('.purchase-toast').remove()">✕</button>
+    `;
+
+    container.appendChild(toast);
+
+    // Remover após 6 segundos
+    setTimeout(() => {
+        if (toast.parentNode) {
+            toast.classList.add('toast-hidden');
+            setTimeout(() => {
+                if (toast.parentNode) toast.remove();
+            }, 500);
+        }
+    }, 6000);
+}
+
+function startPurchaseToasts() {
+    // Mostra um toast imediatamente
+    setTimeout(() => showPurchaseToast(), 3000);
+
+    // Continua mostrando em intervalos aleatórios
+    function scheduleNextToast() {
+        const delay = getRandomTime();
+        setTimeout(() => {
+            showPurchaseToast();
+            scheduleNextToast();
+        }, delay);
+    }
+
+    // Inicia o loop após o primeiro toast
+    setTimeout(scheduleNextToast, 5000);
+}
+
+// Iniciar os toasts quando a página carregar
+document.addEventListener("DOMContentLoaded", function() {
+    // ... seu código existente ...
+    
+    // Inicia os toasts de compra
+    startPurchaseToasts();
+});
 </script>
+<div id="purchaseToastContainer" class="purchase-toast-container"></div>
   </body>
 </html>
