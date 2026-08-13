@@ -127,7 +127,7 @@
 .group video,
 .group img {
     filter: blur(8px) brightness(0.4) !important;
-    -webkit-filter: blur(8px) brightness(0.4) !important;
+    -webkit-filter: blur(4px) brightness(0.4) !important;
     transition: filter 0.5s ease;
     transform: scale(1.05);
 }
@@ -4125,189 +4125,78 @@ document.addEventListener("DOMContentLoaded", function () {
           </section>
 
           <!-- FAQ -->
-          <section
-            class="mx-auto mt-14 w-full max-w-5xl px-4 pb-10 sm:mt-20 sm:px-7"
-          >
-            <h2
-              class="text-center text-3xl font-semibold tracking-[-0.025em] text-[#ff6542] sm:text-5xl"
-            >
-              Perguntas Frequentes
-            </h2>
-            <div class="mt-8 space-y-4 sm:mt-10">
-              <!-- FAQ 1 -->
-              <article
-                class="overflow-hidden rounded-2xl border border-[#dedede] bg-white"
-              >
-                <button
-                  type="button"
-                  aria-expanded="false"
-                  class="faq-question flex w-full items-center gap-4 px-5 py-5 text-left sm:px-7 sm:py-6"
-                  onclick="toggleFAQ(this)"
-                >
-                  <span
-                    class="faq-toggle w-5 shrink-0 text-center text-2xl font-normal text-[#ff6542]"
-                    >+</span
-                  >
-                  <span
-                    class="text-lg font-normal leading-snug text-[#383838] sm:text-2xl"
-                    >É sigiloso? Vai aparecer na fatura?</span
-                  >
-                </button>
-                <div
-                  class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-5 sm:px-7"
-                  style="max-height: 0"
-                >
-                  <div
-                    class="pb-5 sm:pb-6 text-[#555] text-base sm:text-lg leading-relaxed border-t border-[#eee] pt-4"
-                  >
-                    ✅ <strong>Não fica camuflado com outro nome.</strong> A
-                    transação aparece com um identificador discreto e seguro.
-                    Seu sigilo é garantido, e nada relacionado ao conteúdo
-                    aparece na fatura do cartão.
-                  </div>
+  <!-- FAQ -->
+<section class="mx-auto mt-14 w-full max-w-5xl px-4 pb-10 sm:mt-20 sm:px-7">
+    <h2 class="text-center text-3xl font-semibold tracking-[-0.025em] text-[#ff6542] sm:text-5xl">
+        Perguntas Frequentes
+    </h2>
+    <div class="mt-8 space-y-4 sm:mt-10">
+        <!-- FAQ 1 -->
+        <article class="overflow-hidden rounded-2xl border border-[#dedede] bg-white">
+            <button type="button" aria-expanded="false" class="faq-question flex w-full items-center gap-4 px-5 py-5 text-left sm:px-7 sm:py-6">
+                <span class="faq-toggle w-5 shrink-0 text-center text-2xl font-normal text-[#ff6542]">+</span>
+                <span class="text-lg font-normal leading-snug text-[#383838] sm:text-2xl">É sigiloso? Vai aparecer na fatura?</span>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-5 sm:px-7" style="max-height: 0;">
+                <div class="pb-5 sm:pb-6 text-[#555] text-base sm:text-lg leading-relaxed border-t border-[#eee] pt-4">
+                    ✅ <strong>Não fica camuflado com outro nome.</strong> A transação aparece com um identificador discreto e seguro. Seu sigilo é garantido, e nada relacionado ao conteúdo aparece na fatura do cartão.
                 </div>
-              </article>
-
-              <!-- FAQ 2 -->
-              <article
-                class="overflow-hidden rounded-2xl border border-[#dedede] bg-white"
-              >
-                <button
-                  type="button"
-                  aria-expanded="false"
-                  class="faq-question flex w-full items-center gap-4 px-5 py-5 text-left sm:px-7 sm:py-6"
-                  onclick="toggleFAQ(this)"
-                >
-                  <span
-                    class="faq-toggle w-5 shrink-0 text-center text-2xl font-normal text-[#ff6542]"
-                    >+</span
-                  >
-                  <span
-                    class="text-lg font-normal leading-snug text-[#383838] sm:text-2xl"
-                    >Quando tenho acesso depois do pagamento?</span
-                  >
-                </button>
-                <div
-                  class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-5 sm:px-7"
-                  style="max-height: 0"
-                >
-                  <div
-                    class="pb-5 sm:pb-6 text-[#555] text-base sm:text-lg leading-relaxed border-t border-[#eee] pt-4"
-                  >
-                    ⚡
-                    <strong
-                      >Assim que confirmado o pagamento, é imediato!</strong
-                    >
-                    Você recebe acesso automático ao conteúdo assim que o Pix
-                    for aprovado. Não precisa esperar horas ou dias.
-                  </div>
-                </div>
-              </article>
-
-              <!-- FAQ 3 -->
-              <article
-                class="overflow-hidden rounded-2xl border border-[#dedede] bg-white"
-              >
-                <button
-                  type="button"
-                  aria-expanded="false"
-                  class="faq-question flex w-full items-center gap-4 px-5 py-5 text-left sm:px-7 sm:py-6"
-                  onclick="toggleFAQ(this)"
-                >
-                  <span
-                    class="faq-toggle w-5 shrink-0 text-center text-2xl font-normal text-[#ff6542]"
-                    >+</span
-                  >
-                  <span
-                    class="text-lg font-normal leading-snug text-[#383838] sm:text-2xl"
-                    >Posso cancelar quando quiser? A assinatura renova?</span
-                  >
-                </button>
-                <div
-                  class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-5 sm:px-7"
-                  style="max-height: 0"
-                >
-                  <div
-                    class="pb-5 sm:pb-6 text-[#555] text-base sm:text-lg leading-relaxed border-t border-[#eee] pt-4"
-                  >
-                    ✅ <strong>Pode sim!</strong> Você pode cancelar quando
-                    quiser. Nossos planos
-                    <strong>não renovam automaticamente</strong> (exceto o plano
-                    mensal, que renova com aviso prévio). O cancelamento é
-                    simples e rápido.
-                  </div>
-                </div>
-              </article>
-
-              <!-- FAQ 4 -->
-              <article
-                class="overflow-hidden rounded-2xl border border-[#dedede] bg-white"
-              >
-                <button
-                  type="button"
-                  aria-expanded="false"
-                  class="faq-question flex w-full items-center gap-4 px-5 py-5 text-left sm:px-7 sm:py-6"
-                  onclick="toggleFAQ(this)"
-                >
-                  <span
-                    class="faq-toggle w-5 shrink-0 text-center text-2xl font-normal text-[#ff6542]"
-                    >+</span
-                  >
-                  <span
-                    class="text-lg font-normal leading-snug text-[#383838] sm:text-2xl"
-                    >Tem reembolso?</span
-                  >
-                </button>
-                <div
-                  class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-5 sm:px-7"
-                  style="max-height: 0"
-                >
-                  <div
-                    class="pb-5 sm:pb-6 text-[#555] text-base sm:text-lg leading-relaxed border-t border-[#eee] pt-4"
-                  >
-                    🔄 <strong>Sim, 7 dias</strong> de garantia de reembolso. Se
-                    você não ficar satisfeito, pode solicitar o reembolso dentro
-                    de 7 dias após a compra. Nossa política é transparente e
-                    justa.
-                  </div>
-                </div>
-              </article>
-
-              <!-- FAQ 5 -->
-              <article
-                class="overflow-hidden rounded-2xl border border-[#dedede] bg-white"
-              >
-                <button
-                  type="button"
-                  aria-expanded="false"
-                  class="faq-question flex w-full items-center gap-4 px-5 py-5 text-left sm:px-7 sm:py-6"
-                  onclick="toggleFAQ(this)"
-                >
-                  <span
-                    class="faq-toggle w-5 shrink-0 text-center text-2xl font-normal text-[#ff6542]"
-                    >+</span
-                  >
-                  <span
-                    class="text-lg font-normal leading-snug text-[#383838] sm:text-2xl"
-                    >Posso pedir conteúdo personalizado?</span
-                  >
-                </button>
-                <div
-                  class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-5 sm:px-7"
-                  style="max-height: 0"
-                >
-                  <div
-                    class="pb-5 sm:pb-6 text-[#555] text-base sm:text-lg leading-relaxed border-t border-[#eee] pt-4"
-                  >
-                    💬 <strong>Depende da modelo.</strong> A maryy_velvet está
-                    disponível para interações e pode atender pedidos especiais
-                    mediante negociação. Entre em contato pelo Telegram para
-                    saber mais!
-                  </div>
-                </div>
-              </article>
             </div>
-          </section>
+        </article>
+
+        <!-- FAQ 2 -->
+        <article class="overflow-hidden rounded-2xl border border-[#dedede] bg-white">
+            <button type="button" aria-expanded="false" class="faq-question flex w-full items-center gap-4 px-5 py-5 text-left sm:px-7 sm:py-6">
+                <span class="faq-toggle w-5 shrink-0 text-center text-2xl font-normal text-[#ff6542]">+</span>
+                <span class="text-lg font-normal leading-snug text-[#383838] sm:text-2xl">Quando tenho acesso depois do pagamento?</span>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-5 sm:px-7" style="max-height: 0;">
+                <div class="pb-5 sm:pb-6 text-[#555] text-base sm:text-lg leading-relaxed border-t border-[#eee] pt-4">
+                    ⚡ <strong>Assim que confirmado o pagamento, é imediato!</strong> Você recebe acesso automático ao conteúdo assim que o Pix for aprovado. Não precisa esperar horas ou dias.
+                </div>
+            </div>
+        </article>
+
+        <!-- FAQ 3 -->
+        <article class="overflow-hidden rounded-2xl border border-[#dedede] bg-white">
+            <button type="button" aria-expanded="false" class="faq-question flex w-full items-center gap-4 px-5 py-5 text-left sm:px-7 sm:py-6">
+                <span class="faq-toggle w-5 shrink-0 text-center text-2xl font-normal text-[#ff6542]">+</span>
+                <span class="text-lg font-normal leading-snug text-[#383838] sm:text-2xl">Posso cancelar quando quiser? A assinatura renova?</span>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-5 sm:px-7" style="max-height: 0;">
+                <div class="pb-5 sm:pb-6 text-[#555] text-base sm:text-lg leading-relaxed border-t border-[#eee] pt-4">
+                    ✅ <strong>Pode sim!</strong> Você pode cancelar quando quiser. Nossos planos <strong>não renovam automaticamente</strong> (exceto o plano mensal, que renova com aviso prévio). O cancelamento é simples e rápido.
+                </div>
+            </div>
+        </article>
+
+        <!-- FAQ 4 -->
+        <article class="overflow-hidden rounded-2xl border border-[#dedede] bg-white">
+            <button type="button" aria-expanded="false" class="faq-question flex w-full items-center gap-4 px-5 py-5 text-left sm:px-7 sm:py-6">
+                <span class="faq-toggle w-5 shrink-0 text-center text-2xl font-normal text-[#ff6542]">+</span>
+                <span class="text-lg font-normal leading-snug text-[#383838] sm:text-2xl">Tem reembolso?</span>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-5 sm:px-7" style="max-height: 0;">
+                <div class="pb-5 sm:pb-6 text-[#555] text-base sm:text-lg leading-relaxed border-t border-[#eee] pt-4">
+                    🔄 <strong>Sim, 7 dias</strong> de garantia de reembolso. Se você não ficar satisfeito, pode solicitar o reembolso dentro de 7 dias após a compra. Nossa política é transparente e justa.
+                </div>
+            </div>
+        </article>
+
+        <!-- FAQ 5 -->
+        <article class="overflow-hidden rounded-2xl border border-[#dedede] bg-white">
+            <button type="button" aria-expanded="false" class="faq-question flex w-full items-center gap-4 px-5 py-5 text-left sm:px-7 sm:py-6">
+                <span class="faq-toggle w-5 shrink-0 text-center text-2xl font-normal text-[#ff6542]">+</span>
+                <span class="text-lg font-normal leading-snug text-[#383838] sm:text-2xl">Posso pedir conteúdo personalizado?</span>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-5 sm:px-7" style="max-height: 0;">
+                <div class="pb-5 sm:pb-6 text-[#555] text-base sm:text-lg leading-relaxed border-t border-[#eee] pt-4">
+                    💬 <strong>Depende da modelo.</strong> A maryy_velvet está disponível para interações e pode atender pedidos especiais mediante negociação. Entre em contato pelo Telegram para saber mais!
+                </div>
+            </div>
+        </article>
+    </div>
+</section>
         </div>
       </main>
 
@@ -5171,23 +5060,50 @@ const eventMap = {
   // FUNÇÕES DA INTERFACE
   // =============================================
 
-  function abrirModal() {
+function abrirModal(nomePlano, valorPlano) {
     const modal = document.getElementById("modalCompra");
     if (!modal) {
-      console.error("❌ Modal não encontrada!");
-      return;
+        console.error("❌ Modal não encontrada!");
+        return;
     }
+    
+    // 🔥 ATUALIZA O VALOR NO MODAL
+    const valorSpan = document.getElementById("valorSelecionado");
+    if (valorSpan) {
+        valorSpan.textContent = valorPlano.toFixed(2);
+    }
+    
+    // 🔥 ATUALIZA O VALOR NO PIX TAMBÉM
+    const valorPix = document.getElementById("valorPix");
+    if (valorPix) {
+        valorPix.textContent = valorPlano.toFixed(2);
+    }
+    
+    // 🔥 SALVA O PLANO SELECIONADO
+    planoSelecionado = { 
+        nome: nomePlano || '15 Dias', 
+        valor: valorPlano || 9.90 
+    };
+    
+    // 🔥 ATUALIZA O BOTÃO
+    const btn = document.getElementById("btnPagar");
+    if (btn) {
+        btn.textContent = `Gerar PIX R$ ${valorPlano.toFixed(2)}`;
+    }
+    
     modal.classList.add("active");
     document.body.style.overflow = "hidden";
     
     trackEvent('modal_open', {
-      content_name: 'Modal de Compra',
-      content_category: 'conversao',
-      content_type: 'modal'
+        content_name: 'Modal de Compra',
+        content_category: 'conversao',
+        content_type: 'modal',
+        plan_name: nomePlano,
+        plan_value: valorPlano
     });
     
-    console.log("✅ Modal aberta");
-  }
+    console.log(`✅ Modal aberta - Plano: ${nomePlano} - R$ ${valorPlano.toFixed(2)}`);
+}
 
   function fecharModal(event) {
     if (event && event.target !== event.currentTarget) return;
@@ -5520,20 +5436,20 @@ function iniciarTimer() {
   // =============================================
   // INICIALIZAR
   // =============================================
-  document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     console.log("🚀 Página carregada!");
     
     // 🔥 META PIXEL - APENAS ViewContent
     if (typeof fbq === 'function') {
-      fbq('track', 'ViewContent', {
-        content_name: 'Privacy - Conteúdo Exclusivo',
-        content_type: 'page'
-      });
+        fbq('track', 'ViewContent', {
+            content_name: 'Privacy - Conteúdo Exclusivo',
+            content_type: 'page'
+        });
     }
     
     trackGA4Event('page_view', {
-      page_title: document.title,
-      page_location: window.location.href
+        page_title: document.title,
+        page_location: window.location.href
     });
     
     console.log("🔗 Backend:", BACKEND_URL);
@@ -5547,29 +5463,41 @@ function iniciarTimer() {
     trackScroll();
     trackTimeOnPage();
 
-
+    // =============================================
+    // FAQ - SOMENTE UM EVENT LISTENER
+    // =============================================
     document.querySelectorAll(".faq-question").forEach((button) => {
-      button.addEventListener("click", function () {
-        const isExpanded = this.getAttribute("aria-expanded") === "true";
-        const newState = !isExpanded;
-        this.setAttribute("aria-expanded", newState);
-        const toggle = this.querySelector(".faq-toggle");
-        if (toggle) toggle.textContent = newState ? "−" : "+";
-        
-        trackEvent('faq_toggle', {
-          expanded: newState,
-          question: this.textContent?.trim() || ''
+        button.addEventListener("click", function () {
+            const isExpanded = this.getAttribute("aria-expanded") === "true";
+            const newState = !isExpanded;
+            this.setAttribute("aria-expanded", newState);
+            const toggle = this.querySelector(".faq-toggle");
+            if (toggle) toggle.textContent = newState ? "−" : "+";
+            
+            // Resposta animada
+            const answer = this.nextElementSibling;
+            if (answer) {
+                if (newState) {
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                } else {
+                    answer.style.maxHeight = '0';
+                }
+            }
+            
+            trackEvent('faq_toggle', {
+                expanded: newState,
+                question: this.textContent?.trim() || ''
+            });
         });
-      });
     });
 
     document.querySelectorAll('[onclick*="abrirModal"]').forEach(el => {
-      el.addEventListener('click', function() {
-        trackEvent('cta_click', {
-          button_name: 'abrir_modal',
-          button_text: this.textContent?.trim() || ''
+        el.addEventListener('click', function() {
+            trackEvent('cta_click', {
+                button_name: 'abrir_modal',
+                button_text: this.textContent?.trim() || ''
+            });
         });
-      });
     });
 
     // Só abre modal automático se não tiver pagamento pendente
@@ -5578,25 +5506,24 @@ function iniciarTimer() {
     const hasPendingPayment = transaction && paymentStatus && paymentStatus.status === 'pending';
     
     if (!hasPendingPayment && !SESSION_STATE.isPaymentCompleted()) {
-      let modalExibida = false;
-      setTimeout(function () {
-        if (!modalExibida) {
-          modalExibida = true;
-          console.log("⏰ Abrindo modal após 1 minuto");
-          
-          trackEvent('auto_modal_trigger', {
-            delay_seconds: 60,
-            user_type: 'new_visitor'
-          });
-          
-          abrirModal();
-        }
-      }, 60000);
+        let modalExibida = false;
+        setTimeout(function () {
+            if (!modalExibida) {
+                modalExibida = true;
+                console.log("⏰ Abrindo modal após 1 minuto");
+                
+                trackEvent('auto_modal_trigger', {
+                    delay_seconds: 60,
+                    user_type: 'new_visitor'
+                });
+                
+                abrirModal();
+            }
+        }, 60000);
     }
 
     console.log("✅ Sistema pronto!");
-  });
-
+});
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") fecharModal();
   });
@@ -5613,6 +5540,31 @@ function iniciarTimer() {
   window.trackEvent = trackEvent;
   window.mostrarPix = mostrarPix;
   window.resetarModal = resetarModal;
+
+
+
+  function toggleFAQ(button) {
+    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+    const newState = !isExpanded;
+    button.setAttribute('aria-expanded', newState);
+    
+    const toggle = button.querySelector('.faq-toggle');
+    if (toggle) toggle.textContent = newState ? '−' : '+';
+    
+    const answer = button.nextElementSibling;
+    if (answer) {
+        if (newState) {
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+        } else {
+            answer.style.maxHeight = '0';
+        }
+    }
+    
+    trackEvent('faq_toggle', {
+        expanded: newState,
+        question: button.textContent?.trim() || ''
+    });
+}
 </script>
   </body>
 </html>
