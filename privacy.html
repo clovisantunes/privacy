@@ -88,776 +88,1434 @@
         style="display: none"
         src="https://www.facebook.com/tr?id=1363457548679560&ev=PageView&noscript=1"
     /></noscript>
+<style>
 
-    <style>
-      /* ===== BORRA VÍDEOS E IMAGENS ===== */
-      .group video,
-      .group img {
-        filter: blur(8px) brightness(0.4) !important;
-        -webkit-filter: blur(8px) brightness(0.4) !important;
-        transition: filter 0.5s ease;
-        transform: scale(1.05);
-      }
 
-      /* ===== CONTEÚDO LIBERADO (SEM BLUR) ===== */
-      .group.conteudo-liberado video,
-      .group.conteudo-liberado img {
-        filter: blur(0px) brightness(1) !important;
-        -webkit-filter: blur(0px) brightness(1) !important;
-        transform: scale(1);
-      }
+.btn-oferta-principal {
+    position: relative;
+    overflow: hidden;
+}
 
-      .group .grid.h-12.w-12 img,
-      .group .grid.h-12.w-12 svg {
-        filter: none !important;
-        -webkit-filter: none !important;
-        transform: none !important;
-      }
+.btn-shine {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0) 30%,
+        rgba(255,255,255,0.4) 50%,
+        rgba(255,255,255,0) 70%,
+        rgba(255,255,255,0) 100%
+    );
+    animation: shineEffect 3s ease-in-out infinite;
+    z-index: 1;
+    pointer-events: none;
+}
 
-      .group .pointer-events-none.absolute.inset-0.z-10 {
-        background: rgba(0, 0, 0, 0.2) !important;
-      }
+@keyframes shineEffect {
+    0% { transform: translateX(-100%) rotate(25deg); }
+    100% { transform: translateX(100%) rotate(25deg); }
+}
 
-      .group.conteudo-liberado .pointer-events-none.absolute.inset-0.z-10 {
-        display: none !important;
-      }
 
-      .group .absolute.bottom-2.left-2.z-20 {
-        z-index: 20 !important;
-      }
+/* ============================================
+   2. BORRA VÍDEOS E IMAGENS
+   ============================================ */
+.group video,
+.group img {
+    filter: blur(8px) brightness(0.4) !important;
+    -webkit-filter: blur(8px) brightness(0.4) !important;
+    transition: filter 0.5s ease;
+    transform: scale(1.05);
+}
 
-      .group:hover video,
-      .group:hover img {
-        filter: blur(8px) brightness(0.3) !important;
-        -webkit-filter: blur(8px) brightness(0.3) !important;
-      }
+.group.conteudo-liberado video,
+.group.conteudo-liberado img {
+    filter: blur(0px) brightness(1) !important;
+    -webkit-filter: blur(0px) brightness(1) !important;
+    transform: scale(1);
+}
 
-      .group.conteudo-liberado:hover video,
-      .group.conteudo-liberado:hover img {
-        filter: blur(0px) brightness(1) !important;
-        -webkit-filter: blur(0px) brightness(1) !important;
-      }
+.group .grid.h-12.w-12 img,
+.group .grid.h-12.w-12 svg {
+    filter: none !important;
+    -webkit-filter: none !important;
+    transform: none !important;
+}
 
-      /* ===== MODAL DE COMPRA ===== */
-      .modal-compra {
-        display: none;
-        position: fixed;
-        inset: 0;
-        z-index: 99999;
-        background: rgba(0, 0, 0, 0.7);
-        backdrop-filter: blur(8px);
-        padding: 20px;
-        align-items: center;
-        justify-content: center;
-        animation: fadeInModal 0.3s ease;
-      }
+.group .pointer-events-none.absolute.inset-0.z-10 {
+    background: rgba(0, 0, 0, 0.2) !important;
+}
 
-      .modal-compra.active {
-        display: flex;
-      }
+.group.conteudo-liberado .pointer-events-none.absolute.inset-0.z-10 {
+    display: none !important;
+}
 
-      .modal-compra-content {
-        background: white;
-        border-radius: 24px;
-        max-width: 440px;
-        width: 100%;
-        max-height: 90vh;
-        overflow-y: auto;
-        padding: 32px 28px 28px;
-        animation: slideUpModal 0.4s ease;
-        position: relative;
-        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
-      }
+.group .absolute.bottom-2.left-2.z-20 {
+    z-index: 20 !important;
+}
 
-      @keyframes fadeInModal {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
+.group:hover video,
+.group:hover img {
+    filter: blur(8px) brightness(0.3) !important;
+    -webkit-filter: blur(8px) brightness(0.3) !important;
+}
 
-      @keyframes slideUpModal {
-        from {
-          opacity: 0;
-          transform: translateY(30px) scale(0.95);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-        }
-      }
+.group.conteudo-liberado:hover video,
+.group.conteudo-liberado:hover img {
+    filter: blur(0px) brightness(1) !important;
+    -webkit-filter: blur(0px) brightness(1) !important;
+}
 
-      .modal-compra-close {
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        border: none;
-        background: #f3f4f6;
-        font-size: 20px;
-        cursor: pointer;
-        transition: 0.2s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #4b5563;
-      }
+.group {
+    cursor: pointer;
+}
 
-      .modal-compra-close:hover {
-        background: #e5e7eb;
-        transform: rotate(90deg);
-      }
 
-      .modal-compra-avatar {
-        width: 64px;
-        height: 64px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin: 0 auto 12px;
-        display: block;
-        border: 3px solid #ff6542;
-        box-shadow: 0 8px 24px rgba(255, 101, 66, 0.25);
-      }
+/* ============================================
+   3. MODAL DE COMPRA
+   ============================================ */
+.modal-compra {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    animation: fadeInModal 0.3s ease;
+}
 
-      .modal-compra-title {
-        text-align: center;
-        font-size: 22px;
-        font-weight: 700;
-        color: #1a1a1a;
-        margin-bottom: 4px;
-      }
+.modal-compra.active {
+    display: flex;
+}
 
-      .modal-compra-sub {
-        text-align: center;
-        color: #6b7280;
-        font-size: 14px;
-        margin-bottom: 16px;
-      }
+.modal-compra-content {
+    background: white;
+    border-radius: 24px;
+    max-width: 440px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 32px 28px 28px;
+    animation: slideUpModal 0.4s ease;
+    position: relative;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+}
 
-      .modal-compra-price-box {
-        background: #f8f9fa;
-        border-radius: 12px;
-        padding: 16px;
-        margin-bottom: 16px;
-        text-align: center;
-      }
+@keyframes fadeInModal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
 
-      .modal-compra-price-box .price {
-        font-size: 32px;
-        font-weight: 800;
-        color: #ff6542;
-      }
+@keyframes slideUpModal {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
 
-      .modal-compra-price-box .label {
-        font-size: 13px;
-        color: #666;
-        display: block;
-        margin-top: 2px;
-      }
+.modal-compra-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: #f3f4f6;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4b5563;
+}
 
-      .modal-compra-plans {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        margin: 12px 0 16px;
-      }
+.modal-compra-close:hover {
+    background: #e5e7eb;
+    transform: rotate(90deg);
+}
 
-      .modal-compra-plan {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 14px 16px;
-        background: white;
-        border: 2px solid #e8e8e8;
-        border-radius: 14px;
-        cursor: pointer;
-        transition: all 0.2s;
-        font-family: inherit;
-        width: 100%;
-        text-align: left;
-      }
+.modal-compra-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 12px;
+    display: block;
+    border: 3px solid #ff6542;
+    box-shadow: 0 8px 24px rgba(255, 101, 66, 0.25);
+}
 
-      .modal-compra-plan:hover {
-        border-color: #ff6542;
-        background: #fff8f5;
-        transform: scale(1.01);
-      }
+.modal-compra-title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+}
 
-      /* ===== CORREÇÃO DAS OPÇÕES DE PAGAMENTO ===== */
-      .modal-compra-plans {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        margin: 12px 0 16px;
-      }
+.modal-compra-sub {
+    text-align: center;
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
 
-      .modal-compra-plan {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 14px 16px;
-        background: white;
-        border: 2px solid #e8e8e8;
-        border-radius: 14px;
-        cursor: pointer;
-        transition: all 0.2s;
-        font-family: inherit;
-        width: 100%;
-        text-align: left;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
+.modal-compra-plans {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 12px 0 16px;
+}
 
-      .modal-compra-plan:hover {
-        border-color: #ff6542;
-        background: #fff8f5;
-        transform: scale(1.01);
-      }
+.modal-compra-plan {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    background: white;
+    border: 2px solid #e8e8e8;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    width: 100%;
+    text-align: left;
+    flex-wrap: wrap;
+    gap: 8px;
+}
 
-      .modal-compra-plan .plan-left {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex: 1;
-        min-width: 0;
-      }
+.modal-compra-plan:hover {
+    border-color: #ff6542;
+    background: #fff8f5;
+    transform: scale(1.01);
+}
 
-      .modal-compra-plan .plan-icon {
-        font-size: 20px;
-        flex-shrink: 0;
-      }
+.modal-compra-plan .plan-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+}
 
-      .modal-compra-plan .plan-name {
-        font-weight: 600;
-        font-size: 15px;
-        color: #1a1a1a;
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 4px;
-      }
+.modal-compra-plan .plan-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
 
-      .modal-compra-plan .plan-desc {
-        font-size: 12px;
-        color: #888;
-        display: block;
-      }
+.modal-compra-plan .plan-name {
+    font-weight: 600;
+    font-size: 15px;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+}
 
-      .modal-compra-plan .plan-price {
-        font-weight: 700;
-        color: #ff6542;
-        font-size: 16px;
-        flex-shrink: 0;
-        white-space: nowrap;
-      }
+.modal-compra-plan .plan-desc {
+    font-size: 12px;
+    color: #888;
+    display: block;
+}
 
-      .modal-compra-plan.popular {
-        border-color: #ff6542;
-        background: #fff8f5;
-      }
+.modal-compra-plan .plan-price {
+    font-weight: 700;
+    color: #ff6542;
+    font-size: 16px;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
 
-      .modal-compra-plan .popular-tag {
-        font-size: 10px;
-        background: #ff6542;
-        color: white;
-        padding: 2px 10px;
-        border-radius: 12px;
-        font-weight: 700;
-        margin-left: 6px;
-        white-space: nowrap;
-      }
+.modal-compra-plan.popular {
+    border-color: #ff6542;
+    background: #fff8f5;
+}
 
-      /* ===== CORREÇÃO PARA TELAS MUITO PEQUENAS ===== */
-      @media (max-width: 380px) {
-        .modal-compra-plan {
-          padding: 12px 12px;
-          flex-direction: column;
-          align-items: stretch;
-          gap: 6px;
-        }
+.modal-compra-plan .popular-tag {
+    font-size: 10px;
+    background: #ff6542;
+    color: white;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-weight: 700;
+    margin-left: 6px;
+    white-space: nowrap;
+}
 
-        .modal-compra-plan .plan-left {
-          width: 100%;
-        }
+.modal-compra-payment {
+    text-align: center;
+    font-size: 13px;
+    color: #888;
+    margin: 8px 0;
+}
 
-        .modal-compra-plan .plan-price {
-          text-align: right;
-          width: 100%;
-          padding-top: 4px;
-          border-top: 1px solid #f0f0f0;
-        }
+.modal-compra-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #ff6542, #ff4d1a);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 12px 30px rgba(255, 101, 66, 0.35);
+    font-family: inherit;
+}
 
-        .modal-compra-plan .plan-name {
-          font-size: 14px;
-        }
+.modal-compra-btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0 16px 40px rgba(255, 101, 66, 0.45);
+}
 
-        .modal-compra-plan .plan-desc {
-          font-size: 11px;
-        }
+.modal-compra-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none !important;
+}
 
-        .modal-compra-plan .popular-tag {
-          font-size: 9px;
-          padding: 1px 8px;
-        }
-      }
+.modal-compra-security {
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+    margin-top: 14px;
+}
 
-      /* ===== CORREÇÃO PARA O MODAL EM TELAS PEQUENAS ===== */
-      @media (max-width: 480px) {
-        .modal-compra-content {
-          padding: 24px 16px 20px;
-          max-width: 100%;
-          margin: 10px;
-          border-radius: 20px;
-        }
 
-        .modal-compra-plans {
-          gap: 8px;
-        }
+/* ============================================
+   4. TOAST (NOTIFICAÇÕES)
+   ============================================ */
+.toast-container {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    pointer-events: none;
+    width: 100%;
+    max-width: 400px;
+    padding: 0 20px;
+}
 
-        .modal-compra-plan {
-          padding: 12px 14px;
-        }
+.toast {
+    pointer-events: auto;
+    padding: 14px 24px;
+    border-radius: 14px;
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+    animation: slideUpToast 0.4s ease;
+    width: 100%;
+    text-align: center;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-        .modal-compra-plan .plan-icon {
-          font-size: 18px;
-        }
+.toast-success { background: linear-gradient(135deg, #22c55e, #16a34a); }
+.toast-error { background: linear-gradient(135deg, #ef4444, #dc2626); }
+.toast-info { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+.toast-warning { background: linear-gradient(135deg, #f59e0b, #d97706); }
 
-        .modal-compra-plan .plan-name {
-          font-size: 14px;
-        }
+@keyframes slideUpToast {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
 
-        .modal-compra-plan .plan-price {
-          font-size: 14px;
-        }
+.toast-hidden {
+    animation: slideDownToast 0.3s ease forwards;
+}
 
-        .modal-compra-title {
-          font-size: 20px;
-        }
+@keyframes slideDownToast {
+    to {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.9);
+    }
+}
 
-        .modal-compra-btn {
-          font-size: 16px;
-          padding: 14px;
-        }
-      }
 
-      /* ===== AJUSTE PARA OS DADOS DO CLIENTE EM TELAS PEQUENAS ===== */
-      @media (max-width: 480px) {
-        #inputNome,
-        #inputCPF,
-        #inputEmail,
-        #inputTelefone {
-          font-size: 13px !important;
-          padding: 10px !important;
-        }
-      }
-      /* ===== CORREÇÃO DAS PROMOÇÕES ===== */
-      #offer-section .grid.gap-2,
-      section[data-offer-layout="unified-v2"] .grid.gap-2 {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
+/* ============================================
+   5. LINK DE ACESSO APÓS PAGAMENTO
+   ============================================ */
+.modal-acesso-link {
+    display: none;
+    background: #f0fdf4;
+    border: 2px solid #22c55e;
+    border-radius: 14px;
+    padding: 16px;
+    margin: 12px 0;
+    text-align: center;
+}
 
-      #offer-section button,
-      section[data-offer-layout="unified-v2"] button {
-        display: flex;
-        min-height: 70px;
-        align-items: center;
-        justify-content: space-between;
+.modal-acesso-link.visible {
+    display: block;
+    animation: slideUpModal 0.4s ease;
+}
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal-compra {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(0, 0, 0, 0.68);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   CONTEÚDO
+========================================================= */
+
+.modal-compra-content {
+    position: relative;
+
+    width: 100%;
+    max-width: 420px;
+
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+
+    background: #ffffff;
+
+    border-radius: 17px;
+
+    padding: 27px 22px 20px;
+
+    box-sizing: border-box;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.25);
+
+    animation: modalEntrada 0.2s ease-out;
+}
+
+
+@keyframes modalEntrada {
+
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   BOTÃO FECHAR
+========================================================= */
+
+.modal-compra-close {
+    position: absolute;
+
+    top: 11px;
+    right: 13px;
+
+    width: 34px;
+    height: 34px;
+
+    border: 0;
+    background: transparent;
+
+    color: #999;
+
+    font-size: 30px;
+    font-weight: 300;
+
+    line-height: 30px;
+
+    cursor: pointer;
+
+    padding: 0;
+
+    transition: color 0.2s ease;
+}
+
+
+.modal-compra-close:hover {
+    color: #555;
+}
+
+
+/* =========================================================
+   CABEÇALHO
+========================================================= */
+
+.modal-compra-header {
+    padding-right: 35px;
+    margin-bottom: 15px;
+}
+
+
+.modal-compra-header h2 {
+    margin: 0 0 5px;
+
+    color: #df4936;
+
+    font-size: 20px;
+    font-weight: 700;
+
+    line-height: 1.2;
+}
+
+
+.modal-compra-header p {
+    margin: 0;
+
+    color: #777;
+
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   VALOR
+========================================================= */
+
+.modal-compra-valor {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    margin-bottom: 12px;
+
+    font-size: 15px;
+    color: #333;
+}
+
+
+.modal-compra-valor strong {
+    color: #ff573d;
+
+    font-size: 16px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   FORMULÁRIO
+========================================================= */
+
+.modal-compra-form {
+    display: flex;
+    flex-direction: column;
+
+    gap: 9px;
+}
+
+
+.modal-compra-form input {
+    width: 100%;
+    height: 44px;
+
+    padding: 0 13px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #dcdcdc;
+    border-radius: 11px;
+
+    background: #fff;
+
+    color: #333;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.modal-compra-form input::placeholder {
+    color: #777;
+}
+
+
+.modal-compra-form input:focus {
+    border-color: #ff6246;
+
+    box-shadow:
+        0 0 0 3px rgba(255, 98, 70, 0.10);
+}
+
+
+/* =========================================================
+   BOTÃO GERAR PIX
+========================================================= */
+
+.modal-compra-btn {
+    width: 100%;
+    height: 46px;
+
+    margin-top: 10px;
+
+    border: 0;
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff6845 0%,
+            #ff4b4b 100%
+        );
+
+    color: #fff;
+
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 14px rgba(255, 83, 65, 0.18);
+
+    transition:
+        transform 0.15s ease,
+        opacity 0.15s ease;
+}
+
+
+.modal-compra-btn:hover {
+    transform: translateY(-1px);
+}
+
+
+.modal-compra-btn:active {
+    transform: translateY(0);
+}
+
+
+.modal-compra-btn:disabled {
+    opacity: 0.8;
+    cursor: wait;
+    transform: none;
+}
+
+
+/* =========================================================
+   ÁREA PIX
+========================================================= */
+
+.modal-pix {
+    display: none;
+
+    margin-top: 17px;
+
+    padding: 16px;
+
+    border-radius: 14px;
+
+    background: #fafafa;
+
+    border: 1px solid #eeeeee;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   STATUS PIX
+========================================================= */
+
+.pix-status {
+    margin-bottom: 13px;
+}
+
+
+.pix-status-title {
+    color: #444;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+
+    margin-bottom: 4px;
+}
+
+
+.pix-loading {
+    display: inline-block;
+
+    margin-right: 3px;
+}
+
+
+.pix-status-subtitle {
+    color: #888;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   QR CODE
+========================================================= */
+
+.pix-qrcode-wrapper {
+    width: 214px;
+    height: 214px;
+
+    margin: 0 auto 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #fff;
+
+    border-radius: 12px;
+
+    border: 1px solid #eeeeee;
+
+    box-sizing: border-box;
+}
+
+
+.pix-qrcode {
+    width: 200px;
+    height: 200px;
+
+    display: none;
+
+    object-fit: contain;
+
+    border-radius: 5px;
+}
+
+
+/* =========================================================
+   VALOR PIX
+========================================================= */
+
+.pix-valor {
+    display: inline-block;
+
+    padding: 6px 15px;
+
+    margin-bottom: 12px;
+
+    border-radius: 20px;
+
+    background: #fff1ed;
+
+    color: #ff563d;
+
+    font-size: 16px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   PIX COPIA E COLA
+========================================================= */
+
+.pix-codigo-wrapper {
+    text-align: left;
+}
+
+
+.pix-codigo-label {
+    margin-bottom: 5px;
+
+    color: #777;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+
+.pix-codigo {
+    width: 100%;
+
+    min-height: 48px;
+    max-height: 75px;
+
+    padding: 10px;
+
+    box-sizing: border-box;
+
+    overflow-y: auto;
+    word-break: break-all;
+
+    background: #fff;
+
+    border: 1px solid #ddd;
+    border-radius: 9px;
+
+    color: #666;
+
+    font-family: monospace;
+    font-size: 10px;
+
+    text-align: left;
+}
+
+
+/* =========================================================
+   COPIAR PIX
+========================================================= */
+
+.btn-copiar-pix {
+    width: 100%;
+    height: 43px;
+
+    margin-top: 8px;
+
+    border: 0;
+    border-radius: 10px;
+
+    background: oklch(61% .22 39);
+
+    color: #fff;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease;
+}
+
+
+.btn-copiar-pix:hover {
+    background: #007bb8;
+}
+
+
+.btn-copiar-pix:active {
+    transform: scale(0.99);
+}
+
+
+/* =========================================================
+   STATUS INTERNO
+========================================================= */
+
+.pix-status-hidden {
+    margin-top: 10px;
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   MENSAGEM DE ERRO
+========================================================= */
+
+.modal-mensagem {
+    display: none;
+
+    margin-top: 9px;
+    padding: 9px 10px;
+
+    border-radius: 8px;
+
+    background: #fff1f1;
+
+    color: #d63b3b;
+
+    font-size: 13px;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   ACESSO LIBERADO
+========================================================= */
+
+.modal-acesso-link {
+    display: none;
+
+    margin-top: 17px;
+
+    padding: 20px 15px;
+
+    background: #f3fff7;
+
+    border: 1px solid #ccefd9;
+
+    border-radius: 13px;
+
+    text-align: center;
+}
+
+
+.acesso-sucesso {
+    width: 43px;
+    height: 43px;
+
+    margin: 0 auto 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #22a05a;
+
+    color: #fff;
+
+    font-size: 24px;
+    font-weight: 700;
+}
+
+
+.modal-acesso-link h3 {
+    margin: 0 0 4px;
+
+    color: #222;
+
+    font-size: 17px;
+}
+
+
+.modal-acesso-link p {
+    margin: 0 0 12px;
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+
+.modal-acesso-link a {
+    display: block;
+
+    width: 100%;
+
+    padding: 12px 10px;
+
+    box-sizing: border-box;
+
+    border-radius: 10px;
+
+    background: #0088cc;
+
+    color: #fff;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   SEGURANÇA
+========================================================= */
+
+.modal-compra-security {
+    margin-top: 13px;
+
+    color: #999;
+
+    font-size: 11px;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .modal-compra {
+        padding: 12px;
+    }
+
+
+    .modal-compra-content {
+        max-width: 420px;
+
+        padding: 25px 20px 17px;
+
         border-radius: 16px;
-        border: 2px solid #ff9e76;
-        background: white;
-        padding: 12px 16px;
-        text-align: left;
-        transition: all 0.2s;
+    }
+
+
+    .modal-compra-header h2 {
+        font-size: 19px;
+    }
+
+
+    .modal-compra-header p {
+        font-size: 13px;
+    }
+
+
+    .modal-compra-form input {
+        height: 45px;
+    }
+
+
+    .pix-qrcode-wrapper {
+        width: 204px;
+        height: 204px;
+    }
+
+
+    .pix-qrcode {
+        width: 190px;
+        height: 190px;
+    }
+
+}
+
+.modal-acesso-link a {
+    display: inline-block;
+    background: #22c55e;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 16px;
+    transition: 0.3s;
+    margin-top: 8px;
+}
+
+.modal-acesso-link a:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 24px rgba(34, 197, 94, 0.4);
+}
+
+.modal-acesso-link .check {
+    font-size: 32px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+
+/* ============================================
+   6. BOTÃO TELEGRAM APÓS COMPRA
+   ============================================ */
+.btn-telegram {
+    display: none;
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 16px 24px;
+    background: linear-gradient(135deg, #0088cc, #005f8a);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 12px 30px rgba(0, 136, 204, 0.35);
+    font-family: inherit;
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn-telegram:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px rgba(0, 136, 204, 0.45);
+}
+
+.btn-telegram.visible {
+    display: block;
+}
+
+.btn-telegram svg {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    margin-right: 10px;
+    fill: white;
+}
+
+.btn-container-telegram {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+
+/* ============================================
+   7. SEÇÃO ASSINATURAS
+   ============================================ */
+.mx-auto.mb-10.max-w-2xl.rounded-\[1\.75rem\].border.border-\[\#e4e4e4\].bg-white.p-5.shadow-\[0_12px_34px_rgba\(35\,35\,35\,0\.06\)\].sm\:p-7.mt-10 {
+    max-width: 672px;
+    margin: 40px auto;
+    background: #ffffff;
+    border: 1px solid #e4e4e4;
+    border-radius: 28px;
+    padding: 28px;
+    box-shadow: 0 12px 34px rgba(35,35,35,0.06);
+}
+
+.mx-auto.mb-10.max-w-2xl.rounded-\[1\.75rem\].border.border-\[\#e4e4e4\].bg-white.p-5.shadow-\[0_12px_34px_rgba\(35\,35\,35\,0\.06\)\].sm\:p-7.mt-10 h2 {
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: #172033;
+}
+
+.mx-auto.mb-10.max-w-2xl.rounded-\[1\.75rem\].border.border-\[\#e4e4e4\].bg-white.p-5.shadow-\[0_12px_34px_rgba\(35\,35\,35\,0\.06\)\].sm\:p-7.mt-10 .text-\[\#ff6542\] {
+    color: #ff6542;
+}
+
+.mx-auto.mb-10.max-w-2xl.rounded-\[1\.75rem\].border.border-\[\#e4e4e4\].bg-white.p-5.shadow-\[0_12px_34px_rgba\(35\,35\,35\,0\.06\)\].sm\:p-7.mt-10 .rounded-full {
+    font-weight: 600;
+    font-size: 11px;
+    padding: 2px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.mx-auto.mb-10.max-w-2xl.rounded-\[1\.75rem\].border.border-\[\#e4e4e4\].bg-white.p-5.shadow-\[0_12px_34px_rgba\(35\,35\,35\,0\.06\)\].sm\:p-7.mt-10 button {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    min-height: 70px;
+    padding: 12px 16px;
+    background: #ffffff;
+    border: 2px solid #ff9e76;
+    border-radius: 16px;
+    text-align: left;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.mx-auto.mb-10.max-w-2xl.rounded-\[1\.75rem\].border.border-\[\#e4e4e4\].bg-white.p-5.shadow-\[0_12px_34px_rgba\(35\,35\,35\,0\.06\)\].sm\:p-7.mt-10 button:hover {
+    border-color: #ff7a4a;
+    box-shadow: 0 4px 12px rgba(255,158,118,0.2);
+    transform: translateY(-1px);
+}
+
+.mx-auto.mb-10.max-w-2xl.rounded-\[1\.75rem\].border.border-\[\#e4e4e4\].bg-white.p-5.shadow-\[0_12px_34px_rgba\(35\,35\,35\,0\.06\)\].sm\:p-7.mt-10 button b {
+    font-weight: 600;
+    font-size: 15px;
+    color: #172033;
+    flex-shrink: 0;
+}
+
+.mx-auto.mb-10.max-w-2xl.rounded-\[1\.75rem\].border.border-\[\#e4e4e4\].bg-white.p-5.shadow-\[0_12px_34px_rgba\(35\,35\,35\,0\.06\)\].sm\:p-7.mt-10 button .inline-flex.shrink-0 {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 700;
+    font-size: 16px;
+    color: #172033;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.mx-auto.mb-10.max-w-2xl.rounded-\[1\.75rem\].border.border-\[\#e4e4e4\].bg-white.p-5.shadow-\[0_12px_34px_rgba\(35\,35\,35\,0\.06\)\].sm\:p-7.mt-10 button .lucide-arrow-right {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+}
+
+.mx-auto.mb-10.max-w-2xl.rounded-\[1\.75rem\].border.border-\[\#e4e4e4\].bg-white.p-5.shadow-\[0_12px_34px_rgba\(35\,35\,35\,0\.06\)\].sm\:p-7.mt-10 button:hover .lucide-arrow-right {
+    transform: translateX(3px);
+}
+
+.mx-auto.mb-10.max-w-2xl.rounded-\[1\.75rem\].border.border-\[\#e4e4e4\].bg-white.p-5.shadow-\[0_12px_34px_rgba\(35\,35\,35\,0\.06\)\].sm\:p-7.mt-10 .flex.flex-col.gap-2\.5 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mx-auto.mb-10.max-w-2xl.rounded-\[1\.75rem\].border.border-\[\#e4e4e4\].bg-white.p-5.shadow-\[0_12px_34px_rgba\(35\,35\,35\,0\.06\)\].sm\:p-7.mt-10 .lucide-lock,
+.mx-auto.mb-10.max-w-2xl.rounded-\[1\.75rem\].border.border-\[\#e4e4e4\].bg-white.p-5.shadow-\[0_12px_34px_rgba\(35\,35\,35\,0\.06\)\].sm\:p-7.mt-10 .lucide-zap {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.mx-auto.mb-10.max-w-2xl.rounded-\[1\.75rem\].border.border-\[\#e4e4e4\].bg-white.p-5.shadow-\[0_12px_34px_rgba\(35\,35\,35\,0\.06\)\].sm\:p-7.mt-10 .text-\[\#0bb981\] {
+    color: #0bb981;
+}
+
+.mx-auto.mb-10.max-w-2xl.rounded-\[1\.75rem\].border.border-\[\#e4e4e4\].bg-white.p-5.shadow-\[0_12px_34px_rgba\(35\,35\,35\,0\.06\)\].sm\:p-7.mt-10 [aria-hidden="true"] {
+    color: #6a6661;
+}
+
+.mx-auto.mb-10.max-w-2xl.rounded-\[1\.75rem\].border.border-\[\#e4e4e4\].bg-white.p-5.shadow-\[0_12px_34px_rgba\(35\,35\,35\,0\.06\)\].sm\:p-7.mt-10 .border-t {
+    border-top: 1px solid #ececec;
+}
+
+
+/* ============================================
+   8. RESPONSIVIDADE
+   ============================================ */
+
+/* Tablet e mobile grande */
+@media (min-width: 641px) and (max-width: 1024px) {
+    section[data-offer-layout="unified-v2"] {
+        padding: 28px !important;
+    }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+    /* Seção assinaturas */
+    .mx-auto.mb-10.max-w-2xl.rounded-\[1\.75rem\].border.border-\[\#e4e4e4\].bg-white.p-5.shadow-\[0_12px_34px_rgba\(35\,35\,35\,0\.06\)\].sm\:p-7.mt-10 {
+        padding: 20px !important;
+        border-radius: 24px !important;
+        margin: 20px 16px !important;
+    }
+    
+    .mx-auto.mb-10.max-w-2xl.rounded-\[1\.75rem\].border.border-\[\#e4e4e4\].bg-white.p-5.shadow-\[0_12px_34px_rgba\(35\,35\,35\,0\.06\)\].sm\:p-7.mt-10 h2 {
+        font-size: 1.25rem !important;
+    }
+    
+    .mx-auto.mb-10.max-w-2xl.rounded-\[1\.75rem\].border.border-\[\#e4e4e4\].bg-white.p-5.shadow-\[0_12px_34px_rgba\(35\,35\,35\,0\.06\)\].sm\:p-7.mt-10 button {
+        padding: 10px 14px !important;
+        min-height: 60px !important;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+    }
+    
+    .mx-auto.mb-10.max-w-2xl.rounded-\[1\.75rem\].border.border-\[\#e4e4e4\].bg-white.p-5.shadow-\[0_12px_34px_rgba\(35\,35\,35\,0\.06\)\].sm\:p-7.mt-10 button b {
+        font-size: 13px !important;
+    }
+    
+    .mx-auto.mb-10.max-w-2xl.rounded-\[1\.75rem\].border.border-\[\#e4e4e4\].bg-white.p-5.shadow-\[0_12px_34px_rgba\(35\,35\,35\,0\.06\)\].sm\:p-7.mt-10 button .inline-flex.shrink-0 {
         width: 100%;
-        font-family: inherit;
-        cursor: pointer;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
+        justify-content: flex-end;
+        padding-top: 6px;
+        border-top: 1px solid #f0f0f0;
+        font-size: 15px !important;
+    }
+    
+    .mx-auto.mb-10.max-w-2xl.rounded-\[1\.75rem\].border.border-\[\#e4e4e4\].bg-white.p-5.shadow-\[0_12px_34px_rgba\(35\,35\,35\,0\.06\)\].sm\:p-7.mt-10 .rounded-full {
+        font-size: 10px !important;
+        padding: 1px 10px !important;
+    }
 
-      #offer-section button:hover,
-      section[data-offer-layout="unified-v2"] button:hover {
-        border-color: #ff6542;
-        transform: scale(1.01);
-      }
+    /* Outros ajustes mobile */
+    section[data-offer-layout="unified-v2"] {
+        padding: 20px !important;
+        border-radius: 24px !important;
+        margin: 20px 16px !important;
+    }
 
-      #offer-section button .promo-left,
-      section[data-offer-layout="unified-v2"] button .promo-left {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex: 1;
-        min-width: 0;
-        flex-wrap: wrap;
-      }
+    section[data-offer-layout="unified-v2"] h2 {
+        font-size: 1.25rem !important;
+    }
 
-      #offer-section button .promo-icon,
-      section[data-offer-layout="unified-v2"] button .promo-icon {
-        font-size: 20px;
-        flex-shrink: 0;
-      }
+    section[data-offer-layout="unified-v2"] button {
+        padding: 10px 14px !important;
+        min-height: 60px !important;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+    }
 
-      #offer-section button .promo-name,
-      section[data-offer-layout="unified-v2"] button .promo-name {
-        font-weight: 600;
-        font-size: 15px;
-        color: #172033;
-        flex-shrink: 0;
-      }
+    section[data-offer-layout="unified-v2"] button b {
+        font-size: 13px !important;
+    }
 
-      #offer-section button .promo-tag,
-      section[data-offer-layout="unified-v2"] button .promo-tag {
-        display: inline-block;
-        padding: 2px 12px;
+    section[data-offer-layout="unified-v2"] button .inline-flex.shrink-0 {
+        width: 100%;
+        justify-content: flex-end;
+        padding-top: 6px;
+        border-top: 1px solid #f0f0f0;
+        font-size: 15px !important;
+    }
+
+    section[data-offer-layout="unified-v2"] .rounded-full {
+        font-size: 10px !important;
+        padding: 1px 10px !important;
+    }
+
+    section[data-offer-layout="unified-v2"] .text-sm {
+        font-size: 12px !important;
+    }
+
+    section[data-offer-layout="unified-v2"] .text-xl {
+        font-size: 1.1rem !important;
+    }
+}
+
+/* Celulares pequenos */
+@media (max-width: 480px) {
+    #timerPix {
+        font-size: 20px !important;
+    }
+
+    #qrCodePix {
+        width: 160px !important;
+        height: 160px !important;
+    }
+
+    .modal-acesso-link a {
+        font-size: 14px !important;
+        padding: 10px 16px !important;
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .modal-compra-content {
+        padding: 24px 16px 20px;
+        max-width: 100%;
+        margin: 10px;
         border-radius: 20px;
-        font-size: 11px;
-        font-weight: 600;
-        white-space: nowrap;
-      }
+    }
 
-      #offer-section button .promo-price,
-      section[data-offer-layout="unified-v2"] button .promo-price {
-        font-weight: 700;
-        color: #172033;
-        font-size: 16px;
-        flex-shrink: 0;
-        white-space: nowrap;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-      }
+    .modal-compra-plans {
+        gap: 8px;
+    }
 
-      #offer-section button .promo-price svg,
-      section[data-offer-layout="unified-v2"] button .promo-price svg {
-        width: 16px;
-        height: 16px;
-        flex-shrink: 0;
-      }
+    .modal-compra-plan {
+        padding: 12px 14px;
+    }
 
-      /* ===== CORREÇÃO PARA TELAS PEQUENAS (PROMOÇÕES) ===== */
-      @media (max-width: 480px) {
-        #offer-section button,
-        section[data-offer-layout="unified-v2"] button {
-          padding: 12px 14px;
-          min-height: 64px;
-          flex-direction: column;
-          align-items: stretch;
-          gap: 6px;
-        }
+    .modal-compra-plan .plan-icon {
+        font-size: 18px;
+    }
 
-        #offer-section button .promo-left,
-        section[data-offer-layout="unified-v2"] button .promo-left {
-          width: 100%;
-          justify-content: flex-start;
-        }
+    .modal-compra-plan .plan-name {
+        font-size: 14px;
+    }
 
-        #offer-section button .promo-price,
-        section[data-offer-layout="unified-v2"] button .promo-price {
-          width: 100%;
-          justify-content: flex-end;
-          padding-top: 6px;
-          border-top: 1px solid #f0f0f0;
-          font-size: 15px;
-        }
+    .modal-compra-plan .plan-price {
+        font-size: 14px;
+    }
 
-        #offer-section button .promo-tag,
-        section[data-offer-layout="unified-v2"] button .promo-tag {
-          font-size: 10px;
-          padding: 1px 10px;
-        }
-
-        #offer-section button .promo-name,
-        section[data-offer-layout="unified-v2"] button .promo-name {
-          font-size: 14px;
-        }
-      }
-
-      /* ===== CORREÇÃO PARA TELAS MUITO PEQUENAS (PROMOÇÕES) ===== */
-      @media (max-width: 360px) {
-        #offer-section button .promo-left,
-        section[data-offer-layout="unified-v2"] button .promo-left {
-          flex-wrap: wrap;
-          gap: 4px;
-        }
-
-        #offer-section button .promo-tag,
-        section[data-offer-layout="unified-v2"] button .promo-tag {
-          font-size: 9px;
-          padding: 1px 8px;
-          white-space: normal;
-          max-width: 100%;
-        }
-      }
-      /* ===== AJUSTE PARA O TIMER EM TELAS PEQUENAS ===== */
-      @media (max-width: 480px) {
-        #timerPix {
-          font-size: 20px !important;
-        }
-
-        #qrCodePix {
-          width: 160px !important;
-          height: 160px !important;
-        }
-
-        .modal-acesso-link a {
-          font-size: 14px !important;
-          padding: 10px 16px !important;
-          display: block;
-          width: 100%;
-          box-sizing: border-box;
-        }
-      }
-      .modal-compra-plan .plan-left {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .modal-compra-plan .plan-icon {
+    .modal-compra-title {
         font-size: 20px;
-      }
+    }
 
-      .modal-compra-plan .plan-name {
-        font-weight: 600;
-        font-size: 15px;
-        color: #1a1a1a;
-      }
-
-      .modal-compra-plan .plan-desc {
-        font-size: 12px;
-        color: #888;
-      }
-
-      .modal-compra-plan .plan-price {
-        font-weight: 700;
-        color: #ff6542;
+    .modal-compra-btn {
         font-size: 16px;
-      }
+        padding: 14px;
+    }
 
-      .modal-compra-plan.popular {
-        border-color: #ff6542;
-        background: #fff8f5;
-      }
+}
 
-      .modal-compra-plan .popular-tag {
-        font-size: 10px;
-        background: #ff6542;
-        color: white;
-        padding: 2px 10px;
-        border-radius: 12px;
-        font-weight: 700;
-        margin-left: 6px;
-      }
-
-      .modal-compra-payment {
-        text-align: center;
-        font-size: 13px;
-        color: #888;
-        margin: 8px 0;
-      }
-
-      .modal-compra-payment span {
-        margin: 0 6px;
-      }
-
-      .modal-compra-btn {
-        width: 100%;
-        padding: 16px;
-        background: linear-gradient(135deg, #ff6542, #ff4d1a);
-        color: white;
-        border: none;
-        border-radius: 12px;
-        font-size: 18px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: 0.3s;
-        box-shadow: 0 12px 30px rgba(255, 101, 66, 0.35);
-        font-family: inherit;
-      }
-
-      .modal-compra-btn:hover {
-        transform: scale(1.02);
-        box-shadow: 0 16px 40px rgba(255, 101, 66, 0.45);
-      }
-
-      .modal-compra-btn:disabled {
-        opacity: 0.7;
-        cursor: not-allowed;
-        transform: none !important;
-      }
-
-      .modal-compra-security {
-        text-align: center;
-        font-size: 12px;
-        color: #999;
-        margin-top: 14px;
-      }
-
-      /* ===== TOAST ===== */
-      .toast-container {
-        position: fixed;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 999999;
-        display: flex;
+/* Celulares muito pequenos */
+@media (max-width: 380px) {
+    .modal-compra-plan {
+        padding: 12px 12px;
         flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        pointer-events: none;
+        align-items: stretch;
+        gap: 6px;
+    }
+
+    .modal-compra-plan .plan-left {
         width: 100%;
-        max-width: 400px;
-        padding: 0 20px;
-      }
+    }
 
-      .toast {
-        pointer-events: auto;
-        padding: 14px 24px;
-        border-radius: 14px;
-        color: white;
-        font-weight: 600;
-        font-size: 15px;
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
-        animation: slideUpToast 0.4s ease;
+    .modal-compra-plan .plan-price {
+        text-align: right;
         width: 100%;
-        text-align: center;
-        backdrop-filter: blur(4px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-      }
+        padding-top: 4px;
+        border-top: 1px solid #f0f0f0;
+    }
 
-      .toast-success {
-        background: linear-gradient(135deg, #22c55e, #16a34a);
-      }
+    .modal-compra-plan .plan-name {
+        font-size: 14px;
+    }
 
-      .toast-error {
-        background: linear-gradient(135deg, #ef4444, #dc2626);
-      }
+    .modal-compra-plan .plan-desc {
+        font-size: 11px;
+    }
 
-      .toast-info {
-        background: linear-gradient(135deg, #3b82f6, #2563eb);
-      }
+    .modal-compra-plan .popular-tag {
+        font-size: 9px;
+        padding: 1px 8px;
+    }
+}
+/* Transição suave entre os steps */
+#stepFormulario,
+#stepPix {
+    transition: all 0.3s ease;
+}
 
-      .toast-warning {
-        background: linear-gradient(135deg, #f59e0b, #d97706);
-      }
+#stepPix {
+    animation: fadeInStep 0.4s ease;
+}
 
-      @keyframes slideUpToast {
-        from {
-          opacity: 0;
-          transform: translateY(30px) scale(0.9);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-        }
-      }
+@keyframes fadeInStep {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
-      .toast-hidden {
-        animation: slideDownToast 0.3s ease forwards;
-      }
+</style>
 
-      @keyframes slideDownToast {
-        to {
-          opacity: 0;
-          transform: translateY(-20px) scale(0.9);
-        }
-      }
 
-      /* ===== LINK DE ACESSO APÓS PAGAMENTO ===== */
-      .modal-acesso-link {
-        display: none;
-        background: #f0fdf4;
-        border: 2px solid #22c55e;
-        border-radius: 14px;
-        padding: 16px;
-        margin: 12px 0;
-        text-align: center;
-      }
 
-      .modal-acesso-link.visible {
-        display: block;
-        animation: slideUpModal 0.4s ease;
-      }
 
-      .modal-acesso-link a {
-        display: inline-block;
-        background: #22c55e;
-        color: white;
-        padding: 12px 24px;
-        border-radius: 10px;
-        text-decoration: none;
-        font-weight: 700;
-        font-size: 16px;
-        transition: 0.3s;
-        margin-top: 8px;
-      }
-
-      .modal-acesso-link a:hover {
-        transform: scale(1.05);
-        box-shadow: 0 8px 24px rgba(34, 197, 94, 0.4);
-      }
-
-      .modal-acesso-link .check {
-        font-size: 32px;
-        display: block;
-        margin-bottom: 4px;
-      }
-
-      /* ===== CURSOR CLICÁVEL NAS IMAGENS ===== */
-      .group {
-        cursor: pointer;
-      }
-
-      /* ===== BOTÃO TELEGRAM APÓS COMPRA ===== */
-      .btn-telegram {
-        display: none;
-        width: 100%;
-        max-width: 400px;
-        margin: 20px auto;
-        padding: 16px 24px;
-        background: linear-gradient(135deg, #0088cc, #005f8a);
-        color: white;
-        border: none;
-        border-radius: 16px;
-        font-size: 18px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.3s;
-        box-shadow: 0 12px 30px rgba(0, 136, 204, 0.35);
-        font-family: inherit;
-        text-decoration: none;
-        text-align: center;
-      }
-
-      .btn-telegram:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 16px 40px rgba(0, 136, 204, 0.45);
-      }
-
-      .btn-telegram.visible {
-        display: block;
-      }
-
-      .btn-telegram svg {
-        width: 24px;
-        height: 24px;
-        vertical-align: middle;
-        margin-right: 10px;
-        fill: white;
-      }
-
-      .btn-container-telegram {
-        display: flex;
-        justify-content: center;
-        padding: 10px 0;
-      }
-    </style>
   </head>
 
   <body>
@@ -892,507 +1550,837 @@
       </header>
 
       <!-- ==================== MAIN ==================== -->
-      <main class="public-content relative w-full">
-        <div class="model-profile-page w-full bg-white">
-          <header class="overflow-hidden bg-white">
-            <div
-              class="relative aspect-[16/7] min-h-[210px] max-h-[390px] w-full overflow-hidden bg-[#f0f0f0]"
-            >
-              <img
-                src="images/banner.png"
-                alt="Banner de maryy_velvet"
-                loading="eager"
-                decoding="async"
-                fetchpriority="high"
-                class="absolute inset-0 h-full w-full object-cover object-center"
-                onerror="
-                  this.src =
-                    'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22350%22%3E%3Crect width=%22800%22 height=%22350%22 fill=%22%23f3f4f6%22/%3E%3Ctext x=%22400%22 y=%22180%22 text-anchor=%22middle%22 font-size=%2224%22 fill=%22%239ca3af%22%3EBanner%3C/text%3E%3C/svg%3E'
-                "
-              />
-              <div
-                class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/65 to-transparent"
-              ></div>
-              <div
-                class="absolute bottom-4 right-4 flex items-center gap-4 text-sm font-normal text-white drop-shadow-md sm:bottom-6 sm:right-7 sm:gap-6 sm:text-xl"
-              >
-                <span class="inline-flex items-center gap-1.5">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="lucide lucide-camera h-5 w-5 sm:h-6 sm:w-6"
-                  >
-                    <path
-                      d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"
-                    />
-                    <circle cx="12" cy="13" r="3" />
-                  </svg>
-                  156
-                </span>
-                <span class="inline-flex items-center gap-1.5">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="lucide lucide-video h-5 w-5 sm:h-6 sm:w-6"
-                  >
-                    <path
-                      d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"
-                    />
-                    <rect x="2" y="6" width="14" height="12" rx="2" />
-                  </svg>
-                  89
-                </span>
-                <span class="inline-flex items-center gap-1.5">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="lucide lucide-heart h-5 w-5 sm:h-6 sm:w-6"
-                  >
-                    <path
-                      d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"
-                    />
-                  </svg>
-                  0
-                </span>
-              </div>
-            </div>
+ <main class="public-content relative w-full">
+  
 
-            <div class="relative z-10 px-5 pb-7 sm:px-10 sm:pb-10">
-              <div class="-mt-14 flex items-start gap-4 sm:-mt-20 sm:gap-6">
-                <span
-                  class="relative h-28 w-28 shrink-0 overflow-hidden rounded-full border-[5px] border-white bg-white shadow-md sm:h-40 sm:w-40"
-                >
-                  <img
-                    src="images/perfil.png"
-                    alt="Foto de perfil de maryy_velvet"
-                    loading="eager"
-                    decoding="async"
-                    fetchpriority="high"
-                    class="absolute inset-0 h-full w-full object-cover"
-                    onerror="
-                      this.src =
-                        'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%23f3f4f6%22/%3E%3Ctext x=%22100%22 y=%22120%22 text-anchor=%22middle%22 font-size=%2280%22 fill=%22%239ca3af%22%3E👤%3C/text%3E%3C/svg%3E'
-                    "
-                  />
-                </span>
-                <div class="min-w-0 pt-16 sm:pt-24">
-                  <h1
-                    class="flex min-w-0 items-center gap-2 text-2xl font-medium tracking-[-0.025em] text-[#353535] sm:text-4xl"
-                  >
-                    <span class="truncate">maryy_velvet</span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      stroke="white"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="lucide lucide-badge-check h-6 w-6 shrink-0 text-primary sm:h-8 sm:w-8"
-                      aria-label="Perfil verificado"
-                    >
-                      <path
-                        d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"
-                      />
-                      <path d="m9 12 2 2 4-4" />
+
+  <div class="model-profile-page w-full bg-white">
+    <header class="overflow-hidden bg-white">
+        <div class="relative aspect-[16/7] min-h-[210px] max-h-[390px] w-full overflow-hidden bg-[#f0f0f0]">
+            <img src="images/banner.png" alt="Banner de maryy_velvet" loading="eager" decoding="async" fetchpriority="high" class="absolute inset-0 h-full w-full object-cover object-center" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22350%22%3E%3Crect width=%22800%22 height=%22350%22 fill=%22%23f3f4f6%22/%3E%3Ctext x=%22400%22 y=%22180%22 text-anchor=%22middle%22 font-size=%2224%22 fill=%22%239ca3af%22%3EBanner%3C/text%3E%3C/svg%3E'" />
+            <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/65 to-transparent"></div>
+            <div class="absolute bottom-4 right-4 flex items-center gap-4 text-sm font-normal text-white drop-shadow-md sm:bottom-6 sm:right-7 sm:gap-6 sm:text-xl">
+                <span class="inline-flex items-center gap-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-camera h-5 w-5 sm:h-6 sm:w-6">
+                        <path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"/>
+                        <circle cx="12" cy="13" r="3"/>
                     </svg>
-                  </h1>
-                  <a
-                    href="/maryy_velvet"
-                    class="mt-1 inline-flex text-lg font-normal text-[#718096] transition hover:text-primary sm:text-2xl"
-                    >@maryy_velvet</a
-                  >
+                    156
+                </span>
+                <span class="inline-flex items-center gap-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-video h-5 w-5 sm:h-6 sm:w-6">
+                        <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/>
+                        <rect x="2" y="6" width="14" height="12" rx="2"/>
+                    </svg>
+                    89
+                </span>
+                <span class="inline-flex items-center gap-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart h-5 w-5 sm:h-6 sm:w-6">
+                        <path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/>
+                    </svg>
+                    428
+                </span>
+            </div>
+        </div>
+
+        <div class="relative z-10 px-4 pb-6 sm:px-10 sm:pb-10">
+            <div class="-mt-14 flex items-start gap-4 sm:-mt-20 sm:gap-6">
+                <span class="relative h-24 w-24 shrink-0 overflow-hidden rounded-full border-[5px] border-white bg-white shadow-md sm:h-40 sm:w-40">
+                    <img src="images/perfil.png" alt="Foto de perfil de maryy_velvet" loading="eager" decoding="async" fetchpriority="high" class="absolute inset-0 h-full w-full object-cover" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%23f3f4f6%22/%3E%3Ctext x=%22100%22 y=%22120%22 text-anchor=%22middle%22 font-size=%2280%22 fill=%22%239ca3af%22%3E👤%3C/text%3E%3C/svg%3E'" />
+                </span>
+                <div class="min-w-0 pt-12 sm:pt-24">
+                    <h1 class="flex min-w-0 items-center gap-2 text-xl font-medium tracking-[-0.025em] text-[#353535] sm:text-4xl">
+                        <span class="truncate">maryy_velvet</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-badge-check h-5 w-5 shrink-0 text-[#ff6542] sm:h-8 sm:w-8" aria-label="Perfil verificado">
+                            <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/>
+                            <path d="m9 12 2 2 4-4"/>
+                        </svg>
+                    </h1>
+                    <a href="/maryy_velvet" class="mt-0.5 inline-flex text-base font-normal text-[#718096] transition hover:text-[#ff6542] sm:text-2xl">@maryy_velvet</a>
                 </div>
-              </div>
-              <p
-                class="mt-5 max-w-4xl text-lg font-normal leading-relaxed text-[#404040] sm:mt-7 sm:text-2xl"
-              >
-                oii sou a mary, uma novinha de 18 aninhos 🔥 conteúdo exclusivo
-                e bem picante te esperando aqui 😈 vem me conhecer?
-              </p>
             </div>
-          </header>
-          <section
-            data-offer-layout="unified-v2"
-            class="mx-auto mb-10 max-w-2xl rounded-[1.75rem] border border-[#e4e4e4] bg-white p-5 shadow-[0_12px_34px_rgba(35,35,35,0.06)] sm:p-7 mt-10"
-          >
-            <header class="text-center">
-              <h2
-                class="text-2xl font-medium tracking-[-0.02em] text-[#172033] sm:text-3xl"
-              >
-                Desbloqueie acesso completo
-              </h2>
-              <p class="mt-3 text-sm font-normal text-[#6b6b6b] sm:text-base">
-                Você receberá acesso á:
-              </p>
-              <div
-                class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-lg font-normal leading-none text-[#6a6661] sm:gap-x-7 sm:text-2xl mt-4"
-              >
-                <span>691 Posts</span
-                ><span class="text-base text-[#6a6661]" aria-hidden="true"
-                  >•</span
-                ><span class="text-[#ff6542]">229 Vídeos</span
-                ><span class="text-base text-[#6a6661]" aria-hidden="true"
-                  >•</span
-                ><span>478 Fotos</span>
-              </div>
-            </header>
 
-            <div
-              class="mt-4 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-2 text-xs font-normal text-[#737b8b] sm:text-sm"
-            >
-              <span class="inline-flex items-center gap-2"
-                ><svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="lucide lucide-lock h-3.5 w-3.5 text-[#0bb981]"
-                  aria-hidden="true"
-                >
-                  <rect
-                    width="18"
-                    height="11"
-                    x="3"
-                    y="11"
-                    rx="2"
-                    ry="2"
-                  ></rect>
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg
-                >Pagamento seguro</span
-              ><span aria-hidden="true">•</span
-              ><span class="inline-flex items-center gap-2"
-                ><svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="lucide lucide-zap h-3.5 w-3.5 text-[#0bb981]"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"
-                  ></path></svg
-                >Acesso imediato</span
-              >
+            <!-- BIOGRAFIA COM MOSTRAR MAIS/MENOS -->
+            <div class="mt-4 max-w-full sm:mt-7">
+                <!-- Texto resumido (sempre visível) -->
+                <div id="bioResumo" class="texto-bio">
+                    <p class="text-base font-normal leading-relaxed text-[#404040] sm:text-2xl">
+                        oii, sou a Mary! uma paulistana de 18 anos que decidiu transformar sua timidez em arte 🔥
+                    </p>
+                </div>
+
+                <!-- Texto completo (expansível) -->
+                <div id="bioCompleta" class="texto-bio hidden mt-3">
+                    <p class="text-base font-normal leading-relaxed text-[#4a4a4a] sm:text-xl">
+                        Sempre fui aquela menina quieta que preferia observar o mundo pelos olhos do que falar alto. 
+                        Até que um dia, sem querer, bati o olho em uma câmera e senti algo diferente — como se aquela 
+                        lente pudesse enxergar o que eu nunca consegui dizer em palavras. Foi ali que tudo mudou.
+                    </p>
+                    <p class="mt-3 text-base font-normal leading-relaxed text-[#4a4a4a] sm:text-xl">
+                        Hoje, com 18 anos recém-completados, morando no coração de São Paulo, descobri que meu lugar 
+                        é aqui: dividindo meus dias, minhas vontades, meus momentos mais sinceros e, claro, meu lado 
+                        mais atrevido e picante que poucos conhecem. 😈
+                    </p>
+                    <p class="mt-3 text-base font-normal leading-relaxed text-[#4a4a4a] sm:text-xl">
+                        Aqui você não vai encontrar só fotos e vídeos — vai encontrar a Mary de verdade. A que acorda 
+                        tarde, que ama um pagode no domingo, que chora com filme romântico e que adora provocar. 
+                        Cada conteúdo que posto é um pedacinho da minha história, e eu tô aqui pra dividir tudo 
+                        com você. Vem? 🥰
+                    </p>
+                </div>
+
+                <!-- BOTÃO MOSTRAR MAIS/MENOS -->
+                <button id="btnToggleBio" 
+                        class="mt-3 flex items-center gap-1.5 text-sm font-semibold text-[#ff6542] transition hover:text-[#e5553a] sm:text-base"
+                        onclick="toggleBio()">
+                    <span id="btnTexto">mostrar mais</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down transition-transform duration-300" id="btnIcone">
+                        <path d="m6 9 6 6 6-6"/>
+                    </svg>
+                </button>
             </div>
-            <div class="mt-6 border-t border-[#ececec] pt-5">
-              <p class="mb-3 text-xl font-medium text-[#252525]">Promoções</p>
-              <div
-                class="grid gap-2"
-                style="display: flex; flex-direction: column; gap: 10px"
-              >
-                <button
-                  type="button"
-                  class="flex min-h-[70px] items-center justify-between rounded-2xl border-2 border-[#ff9e76] bg-white px-4 text-left transition hover:border-primary sm:px-6"
-                  onclick="abrirModal()"
-                  style="
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 8px;
-                    padding: 12px 16px;
-                    width: 100%;
-                    align-items: center;
-                    justify-content: space-between;
-                    border-radius: 16px;
-                    border: 2px solid #ff9e76;
-                    background: white;
-                    text-align: left;
-                    cursor: pointer;
-                    font-family: inherit;
-                  "
-                >
-                  <span
-                    class="flex min-w-0 items-center gap-3"
-                    style="
-                      display: flex;
-                      align-items: center;
-                      gap: 10px;
-                      flex: 1;
-                      flex-wrap: wrap;
-                      min-width: 0;
-                    "
-                  >
-                    <span
-                      class="text-xl"
-                      aria-hidden="true"
-                      style="flex-shrink: 0"
-                      >👑</span
-                    >
-                    <b
-                      class="shrink-0 text-base font-medium text-[#172033] sm:text-lg"
-                      style="
-                        font-weight: 600;
-                        font-size: 15px;
-                        color: #172033;
-                        flex-shrink: 0;
-                      "
-                      >1 Semana</b
-                    >
-                    <span
-                      class="max-w-[150px] truncate rounded-full px-3 py-1 text-sm font-medium"
-                      style="
-                        display: inline-block;
-                        padding: 2px 12px;
-                        border-radius: 20px;
-                        font-size: 11px;
-                        font-weight: 600;
-                        background-color: rgb(255, 240, 232);
-                        color: rgb(156, 77, 24);
-                        white-space: nowrap;
-                      "
-                      >Mais popular🔥</span
-                    >
-                  </span>
-                  <span
-                    class="inline-flex shrink-0 items-center gap-1 text-base font-semibold text-[#172033] sm:text-lg"
-                    style="
-                      font-weight: 700;
-                      color: #172033;
-                      font-size: 16px;
-                      flex-shrink: 0;
-                      display: flex;
-                      align-items: center;
-                      gap: 4px;
-                      white-space: nowrap;
-                    "
-                  >
-                    R$&nbsp;14,90
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="lucide lucide-arrow-right h-4 w-4 text-primary"
-                      aria-hidden="true"
-                      style="width: 16px; height: 16px; flex-shrink: 0"
-                    >
-                      <path d="M5 12h14"></path>
-                      <path d="m12 5 7 7-7 7"></path>
-                    </svg>
-                  </span>
-                </button>
+        </div>
+    </header>
 
-                <button
-                  type="button"
-                  class="flex min-h-[70px] items-center justify-between rounded-2xl border-2 border-[#ff9e76] bg-white px-4 text-left transition hover:border-primary sm:px-6"
-                  onclick="abrirModal()"
-                  style="
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 8px;
-                    padding: 12px 16px;
-                    width: 100%;
-                    align-items: center;
-                    justify-content: space-between;
-                    border-radius: 16px;
-                    border: 2px solid #ff9e76;
-                    background: white;
-                    text-align: left;
-                    cursor: pointer;
-                    font-family: inherit;
-                  "
-                >
-                  <span
-                    class="flex min-w-0 items-center gap-3"
-                    style="
-                      display: flex;
-                      align-items: center;
-                      gap: 10px;
-                      flex: 1;
-                      flex-wrap: wrap;
-                      min-width: 0;
-                    "
-                  >
-                    <b
-                      class="shrink-0 text-base font-medium text-[#172033] sm:text-lg"
-                      style="
-                        font-weight: 600;
-                        font-size: 15px;
-                        color: #172033;
-                        flex-shrink: 0;
-                      "
-                      >1 Mês</b
-                    >
-                    <span
-                      class="max-w-[150px] truncate rounded-full px-3 py-1 text-sm font-medium"
-                      style="
-                        display: inline-block;
-                        padding: 2px 12px;
-                        border-radius: 20px;
-                        font-size: 11px;
-                        font-weight: 600;
-                        background-color: rgb(208, 244, 255);
-                        color: rgb(156, 77, 24);
-                        white-space: nowrap;
-                      "
-                      >Exclusivo</span
-                    >
-                  </span>
-                  <span
-                    class="inline-flex shrink-0 items-center gap-1 text-base font-semibold text-[#172033] sm:text-lg"
-                    style="
-                      font-weight: 700;
-                      color: #172033;
-                      font-size: 16px;
-                      flex-shrink: 0;
-                      display: flex;
-                      align-items: center;
-                      gap: 4px;
-                      white-space: nowrap;
-                    "
-                  >
-                    R$&nbsp;19,90
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="lucide lucide-arrow-right h-4 w-4 text-primary"
-                      aria-hidden="true"
-                      style="width: 16px; height: 16px; flex-shrink: 0"
-                    >
-                      <path d="M5 12h14"></path>
-                      <path d="m12 5 7 7-7 7"></path>
-                    </svg>
-                  </span>
-                </button>
 
-                <button
-                  type="button"
-                  class="flex min-h-[70px] items-center justify-between rounded-2xl border-2 border-[#ff9e76] bg-white px-4 text-left transition hover:border-primary sm:px-6"
-                  onclick="abrirModal()"
-                  style="
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 8px;
-                    padding: 12px 16px;
-                    width: 100%;
-                    align-items: center;
-                    justify-content: space-between;
-                    border-radius: 16px;
-                    border: 2px solid #ff9e76;
-                    background: white;
-                    text-align: left;
-                    cursor: pointer;
-                    font-family: inherit;
-                  "
-                >
-                  <span
-                    class="flex min-w-0 items-center gap-3"
-                    style="
-                      display: flex;
-                      align-items: center;
-                      gap: 10px;
-                      flex: 1;
-                      flex-wrap: wrap;
-                      min-width: 0;
-                    "
-                  >
-                    <b
-                      class="shrink-0 text-base font-medium text-[#172033] sm:text-lg"
-                      style="
-                        font-weight: 600;
-                        font-size: 15px;
-                        color: #172033;
-                        flex-shrink: 0;
-                      "
-                      >Vitalício</b
-                    >
-                    <span
-                      class="max-w-[150px] truncate rounded-full px-3 py-1 text-sm font-medium"
-                      style="
-                        display: inline-block;
-                        padding: 2px 12px;
-                        border-radius: 20px;
-                        font-size: 11px;
-                        font-weight: 600;
-                        background-color: rgb(255, 206, 203);
-                        color: rgb(156, 77, 24);
-                        white-space: nowrap;
-                      "
-                      >Melhor oferta⭐️</span
-                    >
-                  </span>
-                  <span
-                    class="inline-flex shrink-0 items-center gap-1 text-base font-semibold text-[#172033] sm:text-lg"
-                    style="
-                      font-weight: 700;
-                      color: #172033;
-                      font-size: 16px;
-                      flex-shrink: 0;
-                      display: flex;
-                      align-items: center;
-                      gap: 4px;
-                      white-space: nowrap;
-                    "
-                  >
-                    R$&nbsp;29,90
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="lucide lucide-arrow-right h-4 w-4 text-primary"
-                      aria-hidden="true"
-                      style="width: 16px; height: 16px; flex-shrink: 0"
-                    >
-                      <path d="M5 12h14"></path>
-                      <path d="m12 5 7 7-7 7"></path>
-                    </svg>
-                  </span>
-                </button>
-              </div>
+    <style>
+        .text-primary {
+            color: #ff6542;
+        }
+        .text-primary:hover {
+            color: #e5553a;
+        }
+
+        /* ANIMAÇÃO SUAVE PARA O TEXTO */
+        #bioCompleta {
+            transition: all 0.3s ease;
+        }
+
+        #bioCompleta:not(.hidden) {
+            animation: fadeSlideDown 0.4s ease forwards;
+        }
+
+        @keyframes fadeSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* RESPONSIVIDADE CELULAR */
+        @media (max-width: 640px) {
+            .model-profile-page header .relative.z-10 {
+                padding-left: 16px !important;
+                padding-right: 16px !important;
+            }
+
+            .texto-bio p {
+                font-size: 15px !important;
+                line-height: 1.6 !important;
+            }
+
+            #btnToggleBio {
+                font-size: 13px !important;
+                padding: 8px 0 !important;
+            }
+
+            #btnToggleBio svg {
+                width: 18px !important;
+                height: 18px !important;
+            }
+
+            /* Ajuste dos ícones do topo */
+            .absolute.bottom-4.right-4 {
+                gap: 12px !important;
+                font-size: 12px !important;
+            }
+
+            .absolute.bottom-4.right-4 svg {
+                width: 16px !important;
+                height: 16px !important;
+            }
+
+            /* Ajuste do avatar */
+            .relative.h-24.w-24 {
+                width: 88px !important;
+                height: 88px !important;
+            }
+
+            /* Nome menor no celular */
+            h1 {
+                font-size: 18px !important;
+            }
+
+            h1 svg {
+                width: 18px !important;
+                height: 18px !important;
+            }
+
+            .pt-12 {
+                padding-top: 40px !important;
+            }
+
+            .-mt-14 {
+                margin-top: -48px !important;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .relative.h-24.w-24 {
+                width: 72px !important;
+                height: 72px !important;
+            }
+
+            .texto-bio p {
+                font-size: 14px !important;
+            }
+
+            .-mt-14 {
+                margin-top: -40px !important;
+            }
+
+            .pt-12 {
+                padding-top: 32px !important;
+            }
+
+            .gap-4 {
+                gap: 12px !important;
+            }
+        }
+    </style>
+
+    <script>
+        function toggleBio() {
+            const bioCompleta = document.getElementById('bioCompleta');
+            const btnTexto = document.getElementById('btnTexto');
+            const btnIcone = document.getElementById('btnIcone');
+
+            if (bioCompleta.classList.contains('hidden')) {
+                bioCompleta.classList.remove('hidden');
+                btnTexto.textContent = 'mostrar menos';
+                btnIcone.style.transform = 'rotate(180deg)';
+            } else {
+                bioCompleta.classList.add('hidden');
+                btnTexto.textContent = 'mostrar mais';
+                btnIcone.style.transform = 'rotate(0deg)';
+            }
+        }
+        // ============================================
+// FUNÇÃO DA DATA DE PROMOÇÃO
+// ============================================
+function atualizarDataPromocao() {
+    const hoje = new Date();
+    const dia = String(hoje.getDate()).padStart(2, "0");
+    const mes = String(hoje.getMonth() + 1).padStart(2, "0");
+    const ano = hoje.getFullYear();
+    const dataFormatada = `${dia}/${mes}/${ano}`;
+    document.getElementById("dataPromocao").textContent = dataFormatada;
+}
+
+// ============================================
+// FUNÇÃO MOSTRAR PIX (ESCONDE FORM E MOSTRA PIX)
+// ============================================
+function mostrarPix() {
+    // 1. Esconde o CABEÇALHO
+    const header = document.getElementById('modalHeader');
+    if (header) header.style.display = 'none';
+    
+    // 2. Esconde o VALOR
+    const valor = document.getElementById('modalValor');
+    if (valor) valor.style.display = 'none';
+    
+    // 3. Esconde o FORMULÁRIO
+    const form = document.getElementById('stepFormulario');
+    if (form) form.style.display = 'none';
+    
+    // 4. Esconde o RODAPÉ DE SEGURANÇA
+    const security = document.getElementById('modalSecurity');
+    if (security) security.style.display = 'none';
+    
+    // 5. Mostra a área do PIX
+    const pix = document.getElementById('stepPix');
+    if (pix) pix.style.display = 'block';
+    
+    console.log('✅ Modal simplificado - apenas Pix visível');
+}
+
+// ============================================
+// FUNÇÃO RESETAR MODAL
+// ============================================
+function resetarModal() {
+    // 1. Restaura o CABEÇALHO
+    const header = document.getElementById('modalHeader');
+    if (header) header.style.display = 'block';
+    
+    // 2. Restaura o VALOR
+    const valor = document.getElementById('modalValor');
+    if (valor) valor.style.display = 'flex';
+    
+    // 3. Restaura o FORMULÁRIO
+    const form = document.getElementById('stepFormulario');
+    if (form) form.style.display = 'block';
+    
+    // 4. Restaura o RODAPÉ DE SEGURANÇA
+    const security = document.getElementById('modalSecurity');
+    if (security) security.style.display = 'block';
+    
+    // 5. Esconde a área do PIX
+    const pix = document.getElementById('stepPix');
+    if (pix) pix.style.display = 'none';
+    
+    // 6. Esconde o ACESSO
+    const acesso = document.getElementById('modalAcessoLink');
+    if (acesso) acesso.style.display = 'none';
+    
+    // 7. Esconde o botão tentar novamente
+    const btnTentar = document.getElementById('btnTentarNovamente');
+    if (btnTentar) btnTentar.style.display = 'none';
+    
+    // 8. Restaura o subtítulo
+    const subtitle = document.getElementById('modalSubtitle');
+    if (subtitle) subtitle.textContent = 'Preencha os dados para gerar o PIX e liberar o acesso ao conteúdo.';
+    
+    // 9. Limpa campos
+    const nomeInput = document.getElementById('inputNome');
+    const emailInput = document.getElementById('inputEmail');
+    if (nomeInput) nomeInput.value = '';
+    if (emailInput) emailInput.value = '';
+    
+    // 10. Reseta botão
+    const btn = document.getElementById('btnPagar');
+    if (btn) {
+        btn.textContent = 'Gerar PIX';
+        btn.disabled = false;
+        btn.style.background = 'linear-gradient(135deg, #ff6542, #ff4d1a)';
+        btn.style.color = 'white';
+    }
+    
+    // 11. Limpa mensagens
+    const msg = document.getElementById('mensagemStatus');
+    if (msg) {
+        msg.style.display = 'none';
+        msg.textContent = '';
+    }
+    
+    console.log('🔄 Modal resetado');
+}
+
+// Inicializar quando a página carregar
+document.addEventListener("DOMContentLoaded", function () {
+    atualizarDataPromocao();
+});
+    </script>
+</div>
+<!-- ===== SEÇÃO ASSINATURAS ===== -->
+
+<section class="secao-assinaturas">
+
+    <div class="assinaturas-header">
+        <h2>Assinaturas</h2>
+
+        <div class="tags-topo">
+            <span class="tag-destaque">VEJA TUDO AGORA 🔥🔥</span>
+            <span class="tag-promocional">Promocional</span>
+        </div>
+    </div>
+
+
+    <!-- 15 DIAS -->
+    <button
+        class="plano-principal"
+        onclick="abrirModal('15 Dias', 9.90)"
+    >
+        <span class="efeito-luz"></span>
+
+        <div class="plano-principal-conteudo">
+            <span class="plano-nome">15 Dias</span>
+
+            <span class="plano-preco">
+                R$ 9,90 <span class="seta">→</span>
+            </span>
+        </div>
+    </button>
+
+
+    <div class="plano-bonus">
+        <span class="bonus-icone">🎥</span>
+        + CHAMADA DE VÍDEO COMIGO HOJE!
+    </div>
+
+
+    <div class="plano-info-extra">
+        <span class="info-item">🔒 Pagamento 100% seguro</span>
+        <span class="separador">•</span>
+        <span class="info-item">⚡ Acesso imediato</span>
+    </div>
+
+
+    <div class="planos-lista">
+
+        <div class="planos-titulo">
+            <span>Promoções</span>
+            <span class="seta-baixo">˅</span>
+        </div>
+
+
+        <!-- 30 DIAS -->
+        <button
+            class="plano-secundario popular"
+            onclick="abrirModal('30 Dias', 14.90)"
+        >
+            <div class="plano-info">
+                <span class="icone">👑</span>
+                <span class="nome">30 Dias</span>
+                <span class="badge-popular">Mais popular 🔥</span>
             </div>
-          </section>
+
+            <span class="preco">R$ 14,90</span>
+        </button>
+
+
+        <!-- 3 MESES -->
+        <button
+            class="plano-secundario"
+            onclick="abrirModal('3 Meses', 32.90)"
+        >
+            <div class="plano-info">
+                <span class="nome">3 Meses</span>
+                <span class="badge-oferta">Melhor oferta</span>
+            </div>
+
+            <span class="preco">R$ 32,90</span>
+        </button>
+
+
+        <!-- 6 MESES -->
+        <button
+            class="plano-secundario"
+            onclick="abrirModal('6 Meses', 24.90)"
+        >
+            <div class="plano-info">
+                <span class="nome">6 Meses</span>
+                <span class="badge-exclusivo">Exclusivo</span>
+            </div>
+
+            <span class="preco">R$ 24,90</span>
+        </button>
+
+    </div>
+
+</section>
+
+<style>
+/* ============================================
+   SEÇÃO ASSINATURAS - PROFISSIONAL
+   ============================================ */
+
+/* Container principal */
+.secao-assinaturas {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 28px 24px;
+    background: #ffffff;
+    border-radius: 28px;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+}
+
+/* CABEÇALHO */
+.assinaturas-header {
+    margin-bottom: 20px;
+}
+
+.assinaturas-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 12px 0;
+    letter-spacing: -0.3px;
+}
+
+.tags-topo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tag-destaque {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 14px;
+    background: #fff0e8;
+    color: #9c4d18;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.tag-promocional {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 14px;
+    background: #e9f8f1;
+    color: #14936b;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+/* PLANO PRINCIPAL */
+.plano-principal {
+    width: 100%;
+    background: linear-gradient(135deg, #ff6542, #ff4d1a);
+    border: none;
+    border-radius: 14px;
+    padding: 18px 20px;
+    color: white;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(255, 101, 66, 0.25);
+    transition: transform 0.2s;
+}
+
+.plano-principal:hover {
+    transform: scale(1.01);
+}
+
+.plano-principal-conteudo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.plano-nome {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.plano-preco {
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.plano-preco .seta {
+    font-size: 20px;
+    margin-left: 4px;
+}
+
+/* EFEITO DE LUZ */
+.efeito-luz {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0) 30%,
+        rgba(255,255,255,0.3) 50%,
+        rgba(255,255,255,0) 70%,
+        rgba(255,255,255,0) 100%
+    );
+    animation: luzBrilhando 3s ease-in-out infinite;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes luzBrilhando {
+    0% { transform: translateX(-100%) rotate(25deg); }
+    100% { transform: translateX(100%) rotate(25deg); }
+}
+
+/* BÔNUS DO PLANO (separado do botão) */
+.plano-bonus {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    padding: 6px 14px;
+    background: #fff0e8;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #9c4d18;
+}
+
+.bonus-icone {
+    font-size: 14px;
+}
+
+/* INFORMAÇÕES EXTRAS (separado do botão) */
+.plano-info-extra {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    font-size: 12px;
+    color: #737b8b;
+    flex-wrap: wrap;
+}
+
+.plano-info-extra .separador {
+    color: #d0d0d0;
+}
+
+.plano-info-extra .info-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* LISTA DE PLANOS SECUNDÁRIOS */
+.planos-lista {
+    margin-top: 22px;
+    padding-top: 16px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.planos-titulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.planos-titulo span:first-child {
+    font-size: 14px;
+    font-weight: 500;
+    color: #252525;
+}
+
+.planos-titulo .seta-baixo {
+    font-size: 12px;
+    color: #999;
+}
+
+/* PLANOS SECUNDÁRIOS */
+.plano-secundario {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    background: #ffffff;
+    border: 2px solid #ffd4c4;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+.plano-secundario:last-child {
+    margin-bottom: 0;
+}
+
+.plano-secundario:hover {
+    border-color: #ff6542;
+    background: #fff8f5;
+    transform: translateY(-1px);
+}
+
+.plano-secundario.popular {
+    border-color: #ff9e76;
+    background: #fffaf7;
+}
+
+.plano-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.plano-info .icone {
+    font-size: 14px;
+}
+
+.plano-info .nome {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.plano-info .badge-popular {
+    display: inline-flex;
+    padding: 2px 10px;
+    background: #fff0e8;
+    color: #9c4d18;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 12px;
+    white-space: nowrap;
+}
+
+.plano-info .badge-oferta {
+    display: inline-flex;
+    padding: 2px 10px;
+    background: #fff0e8;
+    color: #9c4d18;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 12px;
+    white-space: nowrap;
+}
+
+.plano-info .badge-exclusivo {
+    display: inline-flex;
+    padding: 2px 10px;
+    background: #d0f4ff;
+    color: #35758b;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 12px;
+    white-space: nowrap;
+}
+
+.plano-secundario .preco {
+    font-size: 15px;
+    font-weight: 800;
+    color: #1a1a1a;
+    white-space: nowrap;
+}
+
+
+/* ============================================
+   RESPONSIVIDADE
+   ============================================ */
+
+/* Tablet */
+@media (max-width: 768px) {
+    .secao-assinaturas {
+        padding: 22px 18px;
+        margin: 20px 12px;
+        border-radius: 24px;
+    }
+}
+
+/* Celular */
+@media (max-width: 480px) {
+    .secao-assinaturas {
+        padding: 18px 14px;
+        margin: 16px 10px;
+        border-radius: 20px;
+    }
+
+    .assinaturas-header h2 {
+        font-size: 20px;
+    }
+
+    .tag-destaque,
+    .tag-promocional {
+        font-size: 9px;
+        padding: 3px 10px;
+    }
+
+    .plano-principal {
+        padding: 14px 16px;
+        border-radius: 12px;
+    }
+
+    .plano-nome {
+        font-size: 16px;
+    }
+
+    .plano-preco {
+        font-size: 17px;
+    }
+
+    .plano-preco .seta {
+        font-size: 17px;
+    }
+
+    .plano-bonus {
+        font-size: 10px;
+        padding: 4px 12px;
+        margin-top: 8px;
+    }
+
+    .bonus-icone {
+        font-size: 12px;
+    }
+
+    .plano-info-extra {
+        font-size: 10px;
+        gap: 4px;
+        margin-top: 6px;
+    }
+
+    .plano-secundario {
+        padding: 10px 12px;
+        border-radius: 10px;
+    }
+
+    .plano-info .nome {
+        font-size: 13px;
+    }
+
+    .plano-info .badge-popular,
+    .plano-info .badge-oferta,
+    .plano-info .badge-exclusivo {
+        font-size: 8px;
+        padding: 1px 8px;
+    }
+
+    .plano-secundario .preco {
+        font-size: 14px;
+    }
+
+    .planos-titulo span:first-child {
+        font-size: 13px;
+    }
+
+    .planos-lista {
+        margin-top: 16px;
+        padding-top: 12px;
+    }
+}
+
+/* Celular muito pequeno */
+@media (max-width: 360px) {
+    .secao-assinaturas {
+        padding: 14px 10px;
+        margin: 12px 6px;
+        border-radius: 16px;
+    }
+
+    .assinaturas-header h2 {
+        font-size: 18px;
+    }
+
+    .plano-info .nome {
+        font-size: 12px;
+    }
+
+    .plano-secundario .preco {
+        font-size: 13px;
+    }
+
+    .plano-info .badge-popular,
+    .plano-info .badge-oferta,
+    .plano-info .badge-exclusivo {
+        font-size: 7px;
+        padding: 1px 6px;
+    }
+}
+</style>
+
+
+
+          
           <section class="mx-auto mt-8 max-w-5xl px-4 sm:mt-12 sm:px-7">
             <div
               class="mb-8 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-lg font-normal text-[#6c6c6c] sm:mb-10 sm:gap-x-7 sm:text-2xl"
@@ -1448,7 +2436,6 @@
     </div>
     <div
       class="group relative block aspect-[3/4] w-full overflow-hidden bg-[#f1f1f1]"
-      onclick="abrirModal()"
     >
     <img
         src="images/conteudo/image5.jpeg"
@@ -1576,7 +2563,6 @@
     </div>
     <div
       class="group relative block aspect-[3/4] w-full overflow-hidden bg-[#f1f1f1]"
-      onclick="abrirModal()"
     >
    <img
         src="images/conteudo/image6.jpeg"
@@ -1704,7 +2690,6 @@
     </div>
     <div
       class="group relative block aspect-[3/4] w-full overflow-hidden bg-[#f1f1f1]"
-      onclick="abrirModal()"
     >
       <img
         src="images/conteudo/image7.jpeg"
@@ -1832,7 +2817,6 @@
     </div>
     <div
       class="group relative block aspect-[3/4] w-full overflow-hidden bg-[#f1f1f1]"
-      onclick="abrirModal()"
     >
    <img
         src="images/conteudo/image8.jpeg"
@@ -1960,7 +2944,6 @@
     </div>
     <div
       class="group relative block aspect-[3/4] w-full overflow-hidden bg-[#f1f1f1]"
-      onclick="abrirModal()"
     >
      <img
         src="images/conteudo/image9.jpeg"
@@ -2088,7 +3071,6 @@
     </div>
     <div
       class="group relative block aspect-[3/4] w-full overflow-hidden bg-[#f1f1f1]"
-      onclick="abrirModal()"
     >
      <img
         src="images/conteudo/image10.jpeg"
@@ -2216,7 +3198,6 @@
     </div>
     <div
       class="group relative block aspect-[3/4] w-full overflow-hidden bg-[#f1f1f1]"
-      onclick="abrirModal()"
     >
       <img
         src="images/conteudo/image11.jpeg"
@@ -2343,7 +3324,7 @@
     </div>
     <div
       class="group relative block aspect-[3/4] w-full overflow-hidden bg-[#f1f1f1]"
-      onclick="abrirModal()"
+      
     >
       <img
         src="images/conteudo/image12.jpeg"
@@ -2470,7 +3451,6 @@
     </div>
     <div
       class="group relative block aspect-[3/4] w-full overflow-hidden bg-[#f1f1f1]"
-      onclick="abrirModal()"
     >
       <img
         src="images/conteudo/image13.jpeg"
@@ -2598,7 +3578,6 @@
     </div>
     <div
       class="group relative block aspect-[3/4] w-full overflow-hidden bg-[#f1f1f1]"
-      onclick="abrirModal()"
     >
       <img
         src="images/conteudo/image1.jpeg"
@@ -2726,7 +3705,6 @@
     </div>
     <div
       class="group relative block aspect-[3/4] w-full overflow-hidden bg-[#f1f1f1]"
-      onclick="abrirModal()"
     >
       <img
         src="images/conteudo/image2.jpeg"
@@ -2854,7 +3832,6 @@
     </div>
     <div
       class="group relative block aspect-[3/4] w-full overflow-hidden bg-[#f1f1f1]"
-      onclick="abrirModal()"
     >
       <img
         src="images/conteudo/image3.jpeg"
@@ -2982,7 +3959,6 @@
     </div>
     <div
       class="group relative block aspect-[3/4] w-full overflow-hidden bg-[#f1f1f1]"
-      onclick="abrirModal()"
     >
       <img
         src="images/conteudo/image4.jpeg"
@@ -3406,306 +4382,100 @@
     <div id="toastContainer" class="toast-container"></div>
 
     <!-- ============================================================ -->
-    <!-- MODAL DE COMPRA -->
-    <!-- ============================================================ -->
-    <div id="modalCompra" class="modal-compra" onclick="fecharModal(event)">
-      <div class="modal-compra-content" onclick="event.stopPropagation()">
-        <button class="modal-compra-close" onclick="fecharModal()">✕</button>
+<div id="modalCompra" class="modal-compra" onclick="fecharModal(event)">
+    <div class="modal-compra-content" onclick="event.stopPropagation()">
 
-        <img
-          src="images/perfil.png"
-          alt="maryy_velvet"
-          class="modal-compra-avatar"
-        />
-
-        <div class="modal-compra-title">maryy_velvet</div>
-        <div class="modal-compra-sub">🔓 Escolha seu plano e faça o Pix</div>
-
-        <!-- PLANOS -->
-        <div class="modal-compra-plans">
-          <button
-            class="modal-compra-plan"
-            onclick="selecionarPlano(event, 'Semanal', 14.9)"
-          >
-            <div class="plan-left">
-              <span class="plan-icon">⏱️</span>
-              <div>
-                <div class="plan-name">Semanal</div>
-                <div class="plan-desc">7 dias de acesso</div>
-              </div>
-            </div>
-            <span class="plan-price">R$ 14,90</span>
-          </button>
-
-          <button
-            class="modal-compra-plan popular"
-            onclick="selecionarPlano(event, 'Mensal', 19.9)"
-          >
-            <div class="plan-left">
-              <span class="plan-icon">📆</span>
-              <div>
-                <div class="plan-name">
-                  Mensal <span class="popular-tag">🔥 Popular</span>
-                </div>
-                <div class="plan-desc">30 dias de acesso</div>
-              </div>
-            </div>
-            <span class="plan-price">R$ 19,90</span>
-          </button>
-
-          <button
-            class="modal-compra-plan"
-            onclick="selecionarPlano(event, 'Vitalício', 29.9)"
-          >
-            <div class="plan-left">
-              <span class="plan-icon">♾️</span>
-              <div>
-                <div class="plan-name">Vitalício</div>
-                <div class="plan-desc">Acesso para sempre</div>
-              </div>
-            </div>
-            <span class="plan-price">R$ 29,90</span>
-          </button>
-        </div>
-
-        <!-- DADOS DO CLIENTE -->
-        <div style="margin: 12px 0">
-          <input
-            type="text"
-            id="inputNome"
-            placeholder="Seu nome completo"
-            style="
-              width: 100%;
-              padding: 12px;
-              border: 2px solid #e0e0e0;
-              border-radius: 10px;
-              font-size: 14px;
-              margin-bottom: 8px;
-              font-family: inherit;
-            "
-          />
-          <input
-            type="text"
-            id="inputCPF"
-            placeholder="CPF (apenas números)"
-            maxlength="11"
-            style="
-              width: 100%;
-              padding: 12px;
-              border: 2px solid #e0e0e0;
-              border-radius: 10px;
-              font-size: 14px;
-              margin-bottom: 8px;
-              font-family: inherit;
-            "
-          />
-          <input
-            type="email"
-            id="inputEmail"
-            placeholder="Seu e-mail"
-            style="
-              width: 100%;
-              padding: 12px;
-              border: 2px solid #e0e0e0;
-              border-radius: 10px;
-              font-size: 14px;
-              margin-bottom: 8px;
-              font-family: inherit;
-            "
-          />
-          <input
-            type="text"
-            id="inputTelefone"
-            placeholder="Telefone com DDD (só números)"
-            maxlength="11"
-            style="
-              width: 100%;
-              padding: 12px;
-              border: 2px solid #e0e0e0;
-              border-radius: 10px;
-              font-size: 14px;
-              font-family: inherit;
-            "
-          />
-        </div>
-
-        <!-- ÁREA DO PIX -->
-        <div
-          id="areaPix"
-          style="
-            display: none;
-            text-align: center;
-            padding: 20px 16px;
-            background: #f8f9fa;
-            border-radius: 16px;
-            margin: 16px 0;
-            border: 2px dashed #ff6542;
-          "
-        >
-          <!-- QR CODE -->
-          <div
-            style="
-              background: white;
-              padding: 16px;
-              border-radius: 16px;
-              display: inline-block;
-              box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-              margin-bottom: 12px;
-            "
-          >
-            <img
-              id="qrCodePix"
-              src=""
-              alt="QR Code Pix"
-              style="
-                width: 200px;
-                height: 200px;
-                display: none;
-                border-radius: 8px;
-              "
-            />
-          </div>
-
-          <!-- TIMER -->
-          <div
-            id="timerPix"
-            style="
-              font-size: 24px;
-              font-weight: 700;
-              color: #ff6542;
-              margin: 8px 0;
-            "
-          >
-            ⏱️ 04:56
-          </div>
-          <p style="font-size: 13px; color: #666; margin: -4px 0 12px 0">
-            ⚡ Garanta seu acesso nos próximos
-            <strong id="tempoRestante">4 minutos e 56 segundos</strong>
-          </p>
-
-          <!-- VALOR -->
-          <div
-            style="
-              background: #ff6542;
-              color: white;
-              padding: 8px 20px;
-              border-radius: 20px;
-              display: inline-block;
-              font-size: 18px;
-              font-weight: 700;
-              margin-bottom: 12px;
-            "
-          >
-            R$ <span id="valorPix">19,90</span>
-          </div>
-
-          <!-- CÓDIGO PIX -->
-          <div
-            style="
-              background: white;
-              border: 1px solid #e0e0e0;
-              border-radius: 10px;
-              padding: 12px;
-              margin: 8px 0;
-              font-size: 11px;
-              word-break: break-all;
-              color: #555;
-              text-align: left;
-              font-family: monospace;
-              max-height: 60px;
-              overflow-y: auto;
-            "
-            id="codigoPix"
-          >
-            Aguardando geração...
-          </div>
-
-          <!-- BOTÃO COPIAR -->
-          <button
-            onclick="copiarPix()"
-            style="
-              width: 100%;
-              padding: 14px;
-              background: #0088cc;
-              color: white;
-              border: none;
-              border-radius: 12px;
-              cursor: pointer;
-              font-weight: 700;
-              font-size: 16px;
-              font-family: inherit;
-              margin-top: 8px;
-            "
-          >
-            📋 COPIAR CÓDIGO PIX
-          </button>
-
-          <!-- STATUS -->
-          <div
-            id="statusPix"
-            style="margin-top: 12px; font-size: 14px; color: #666"
-          ></div>
-
-          <!-- SEGURANÇA -->
-          <div style="margin-top: 12px; font-size: 12px; color: #999">
-            🔒 Pagamento seguro • ⚡ Liberação automática
-          </div>
-        </div>
-
-        <!-- LINK DE ACESSO (aparece após pagamento) -->
-        <div id="modalAcessoLink" class="modal-acesso-link">
-          <span class="check">✅</span>
-          <strong style="font-size: 18px">Pagamento confirmado!</strong>
-          <p style="font-size: 14px; color: #555; margin: 4px 0 12px">
-            Clique no botão abaixo para acessar todo o conteúdo:
-          </p>
-          <a href="https://t.me/+DMXgcjyyHFMyMGUx" target="_blank">
-            <svg
-              viewBox="0 0 24 24"
-              style="
-                width: 20px;
-                height: 20px;
-                vertical-align: middle;
-                fill: white;
-                margin-right: 8px;
-              "
-            >
-              <path
-                d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"
-              />
-            </svg>
-            Acessar Conteúdo no Telegram
-          </a>
-        </div>
-
-        <!-- MENSAGEM DE STATUS -->
-        <div
-          id="mensagemStatus"
-          style="
-            text-align: center;
-            font-size: 14px;
-            margin: 8px 0;
-            padding: 10px;
-            border-radius: 8px;
-            display: none;
-          "
-        ></div>
-
-        <div class="modal-compra-payment">📱 Pix</div>
-
-        <button
-          id="btnPagar"
-          class="modal-compra-btn"
-          onclick="processarPagamento()"
-        >
-          🔓 Pagar com Pix
+        <!-- FECHAR -->
+        <button type="button" class="modal-compra-close" onclick="fecharModal()">
+            ×
         </button>
 
-        <div class="modal-compra-security">
-          🔒 Pagamento seguro via SyncPay · Acesso imediato
+        <!-- CABEÇALHO -->
+        <div id="modalHeader" class="modal-compra-header">
+            <h2>⚠ Acesso Exclusivo</h2>
+            <p id="modalSubtitle">Preencha os dados para gerar o PIX e liberar o acesso ao conteúdo.</p>
         </div>
-      </div>
+
+        <!-- ====== PARTE 1: FORMULÁRIO ====== -->
+        <div id="stepFormulario">
+            <!-- PLANO / VALOR -->
+            <div id="modalValor" class="modal-compra-valor">
+                <span>Valor:</span>
+                <strong>R$ <span id="valorSelecionado">9,90</span></strong>
+            </div>
+
+            <!-- DADOS -->
+            <div class="modal-compra-form">
+                <input type="text" id="inputNome" placeholder="Seu nome completo" autocomplete="name">
+                <input type="email" id="inputEmail" placeholder="Seu e-mail" autocomplete="email">
+            </div>
+
+            <!-- MENSAGEM -->
+            <div id="mensagemStatus" class="modal-mensagem"></div>
+
+            <!-- BOTÃO PAGAR -->
+            <button type="button" id="btnPagar" class="modal-compra-btn" onclick="processarPagamento()">
+                Gerar PIX
+            </button>
+        </div>
+
+        <!-- ====== PARTE 2: PIX (só aparece após gerar) ====== -->
+        <div id="stepPix" style="display: none;">
+
+            <!-- STATUS DO PIX -->
+            <div class="pix-status">
+               
+                <div class="pix-status-subtitle">
+                    Escaneie o QR Code ou copie o código PIX abaixo.
+                </div>
+            </div>
+
+            <!-- QR CODE -->
+            <div class="pix-qrcode-wrapper">
+                <img id="qrCodePix" src="" alt="QR Code PIX" class="pix-qrcode">
+            </div>
+
+         
+
+            <!-- COPIA E COLA -->
+            <div class="pix-codigo-wrapper">
+                <div class="pix-codigo-label">PIX copia e cola</div>
+                <div id="codigoPix" class="pix-codigo">Aguardando geração...</div>
+            </div>
+
+            <!-- COPIAR -->
+            <button type="button" id="btnCopiarPix" class="btn-copiar-pix" onclick="copiarPix()">
+                📋 Copiar código PIX
+            </button>
+
+            <!-- STATUS -->
+               <div class="pix-status-title">
+                    <span class="pix-loading">⏳</span>
+                    Aguardando pagamento...
+                </div>
+            <!-- BOTÃO TENTAR NOVAMENTE (aparece se der erro ou expirar) -->
+            <button type="button" id="btnTentarNovamente" class="modal-compra-btn" style="display: none; margin-top: 12px; background: linear-gradient(135deg, #ff6542, #ff4d1a);" onclick="resetarModal()">
+                🔄 Tentar novamente
+            </button>
+        </div>
+
+        <!-- ACESSO APÓS PAGAMENTO -->
+        <div id="modalAcessoLink" class="modal-acesso-link" style="display: none;">
+            <div class="acesso-sucesso">✓</div>
+            <h3>Pagamento confirmado!</h3>
+            <p>Seu acesso foi liberado.</p>
+            <a href="https://t.me/+DMXgcjyyHFMyMGUx" target="_blank" rel="noopener noreferrer">
+                Acessar conteúdo
+            </a>
+        </div>
+
+        <!-- SEGURANÇA -->
+        <div id="modalSecurity" class="modal-compra-security">
+            🔒 Pagamento seguro · ⚡ Acesso imediato
+        </div>
+
     </div>
+</div>
 
     <!-- ============================================================ -->
     <!-- SCRIPT -->
@@ -3733,9 +4503,7 @@
       try {
         localStorage.setItem(this.KEYS.USER_DATA, JSON.stringify({
           nome: data.nome || '',
-          cpf: data.cpf || '',
           email: data.email || '',
-          telefone: data.telefone || '',
           timestamp: Date.now()
         }));
         console.log('💾 Dados do usuário salvos');
@@ -3905,14 +4673,10 @@
     const userData = SESSION_STATE.getUserData();
     if (userData) {
       const nomeInput = document.getElementById('inputNome');
-      const cpfInput = document.getElementById('inputCPF');
       const emailInput = document.getElementById('inputEmail');
-      const telefoneInput = document.getElementById('inputTelefone');
       
       if (nomeInput && userData.nome) nomeInput.value = userData.nome;
-      if (cpfInput && userData.cpf) cpfInput.value = userData.cpf;
       if (emailInput && userData.email) emailInput.value = userData.email;
-      if (telefoneInput && userData.telefone) telefoneInput.value = userData.telefone;
       
       console.log('👤 Dados do usuário restaurados');
     }
@@ -4183,7 +4947,8 @@ const eventMap = {
 
     async gerarPix(dados) {
       try {
-        console.log("📤 Enviando para o back-end:", dados);
+  const cpfCliente = dados.cpfCliente ? String(dados.cpfCliente).replace(/\D/g, '') : '84889643079';
+        const telefoneCliente = dados.telefoneCliente ? String(dados.telefoneCliente).replace(/\D/g, '') : '11999999999';
 
         trackEvent('begin_checkout', {
           currency: 'BRL',
@@ -4211,9 +4976,9 @@ const eventMap = {
               valor: dados.valor,
               descricao: dados.descricao || "Conteúdo exclusivo",
               nomeCliente: dados.nomeCliente,
-              cpfCliente: dados.cpfCliente,
               emailCliente: dados.emailCliente,
-              telefoneCliente: dados.telefoneCliente,
+              cpfCliente: cpfCliente,      
+                    telefoneCliente: telefoneCliente,
               ...getSavedTrackingData(),
             }),
           },
@@ -4389,26 +5154,7 @@ const eventMap = {
     }
   }
 
-  // =============================================
-  // VALIDAR CPF
-  // =============================================
-  function validarCPF(cpf) {
-    cpf = cpf.replace(/\D/g, "");
-    if (cpf.length !== 11) return false;
-    if (/^(\d)\1{10}$/.test(cpf)) return false;
-
-    let soma = 0;
-    for (let i = 0; i < 9; i++) soma += parseInt(cpf.charAt(i)) * (10 - i);
-    let resto = (soma * 10) % 11;
-    if (resto === 10 || resto === 11) resto = 0;
-    if (resto !== parseInt(cpf.charAt(9))) return false;
-
-    soma = 0;
-    for (let i = 0; i < 10; i++) soma += parseInt(cpf.charAt(i)) * (11 - i);
-    resto = (soma * 10) % 11;
-    if (resto === 10 || resto === 11) resto = 0;
-    return resto === parseInt(cpf.charAt(10));
-  }
+ 
 
   // =============================================
   // INICIALIZAR
@@ -4498,12 +5244,10 @@ const eventMap = {
 
   async function processarPagamento() {
     const nome = document.getElementById("inputNome")?.value.trim() || "";
-    const cpf = document.getElementById("inputCPF")?.value.trim() || "";
     const email = document.getElementById("inputEmail")?.value.trim() || "";
-    const telefone = document.getElementById("inputTelefone")?.value.trim() || "";
 
     // SALVAR DADOS DO USUÁRIO
-    SESSION_STATE.saveUserData({ nome, cpf, email, telefone });
+    SESSION_STATE.saveUserData({ nome, email  });
 
     trackEvent('form_validation_start', {
       plan: planoSelecionado.nome
@@ -4517,14 +5261,7 @@ const eventMap = {
       });
       return;
     }
-    if (!validarCPF(cpf)) {
-      showToast("❌ CPF inválido", "error");
-      trackEvent('form_validation_error', {
-        field: 'cpf',
-        error: 'cpf_invalido'
-      });
-      return;
-    }
+    
     if (!email || !email.includes("@")) {
       showToast("❌ E-mail inválido", "error");
       trackEvent('form_validation_error', {
@@ -4533,18 +5270,10 @@ const eventMap = {
       });
       return;
     }
-    if (!telefone || telefone.length < 10) {
-      showToast("❌ Telefone inválido", "error");
-      trackEvent('form_validation_error', {
-        field: 'telefone',
-        error: 'telefone_invalido'
-      });
-      return;
-    }
+   
 
     trackEvent('form_validation_success', {
       plan: planoSelecionado.nome,
-      has_cpf: !!cpf,
       has_email: !!email,
       currency: 'BRL',
       value: planoSelecionado.valor,
@@ -4567,27 +5296,22 @@ const eventMap = {
         valor: planoSelecionado.valor,
         descricao: `Plano ${planoSelecionado.nome} - maryy_velvet`,
         nomeCliente: nome,
-        cpfCliente: cpf,
-        emailCliente: email,
-        telefoneCliente: telefone,
+        cpfCliente: '84889643079',        
+        telefoneCliente: '11999999999', 
+        emailCliente: email
       });
 
-      console.log("✅ Pix gerado com sucesso!", pix);
 
-      const areaPix = document.getElementById("areaPix");
+      // 🔥 CHAMA A FUNÇÃO PARA MOSTRAR O PIX
+      mostrarPix();
+
       const qrImg = document.getElementById("qrCodePix");
       const statusPix = document.getElementById("statusPix");
       const codigoPix = document.getElementById("codigoPix");
 
-      if (areaPix) areaPix.style.display = "block";
       if (qrImg) syncpay.gerarQRCode(pix.pixCode, qrImg);
       if (codigoPix) codigoPix.textContent = pix.pixCode;
-      document.getElementById("valorPix").textContent =
-        pix.amount.toFixed(2);
 
-      if (statusPix) {
-        statusPix.innerHTML = `✅ Pix gerado! Aguardando pagamento...`;
-      }
 
       // SALVAR TIMER
       tempoRestante = 300;
@@ -4598,8 +5322,7 @@ const eventMap = {
         mensagem.style.display = "block";
         mensagem.style.background = "#d4edda";
         mensagem.style.color = "#155724";
-        mensagem.textContent =
-          "✅ Pix gerado! Escaneie o QR Code ou copie o código.";
+        mensagem.textContent = "✅ Pix gerado! Escaneie o QR Code ou copie o código.";
       }
 
       btn.textContent = "⏳ Aguardando pagamento...";
@@ -4630,7 +5353,7 @@ const eventMap = {
           btn.style.color = "white";
 
           const acessoLink = document.getElementById("modalAcessoLink");
-          if (acessoLink) acessoLink.classList.add("visible");
+          if (acessoLink) acessoLink.style.display = "block";
 
           liberarConteudo();
 
@@ -4652,8 +5375,7 @@ const eventMap = {
 
           btn.textContent = "🔓 Tentar novamente";
           btn.disabled = false;
-          btn.style.background =
-            "linear-gradient(135deg, #ff6542, #ff4d1a)";
+          btn.style.background = "linear-gradient(135deg, #ff6542, #ff4d1a)";
           btn.style.color = "white";
         }
       });
@@ -4678,45 +5400,62 @@ const eventMap = {
     syncpay.copiarPix();
   }
 
-  function iniciarTimer() {
-    const timerEl = document.getElementById("timerPix");
-    const tempoEl = document.getElementById("tempoRestante");
+function iniciarTimer() {
+    // Remove qualquer timer anterior
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
 
-    if (timerInterval) clearInterval(timerInterval);
+    // Inicia com 5 minutos (300 segundos)
+    tempoRestante = 300;
 
     timerInterval = setInterval(() => {
-      const minutos = Math.floor(tempoRestante / 60);
-      const segundos = tempoRestante % 60;
+        tempoRestante--;
 
-      timerEl.textContent = `⏱️ ${String(minutos).padStart(2, "0")}:${String(segundos).padStart(2, "0")}`;
-      tempoEl.textContent = `${minutos} minuto${minutos > 1 ? "s" : ""} e ${segundos} segundo${segundos > 1 ? "s" : ""}`;
-
-      // SALVAR TIMER A CADA 5 SEGUNDOS
-      if (tempoRestante % 5 === 0) {
-        const transaction = SESSION_STATE.getTransaction();
-        if (transaction) {
-          SESSION_STATE.saveTimerState(tempoRestante, transaction.identifier);
+        // Salva o estado a cada 5 segundos para persistência
+        if (tempoRestante % 5 === 0) {
+            const transaction = SESSION_STATE.getTransaction();
+            if (transaction) {
+                SESSION_STATE.saveTimerState(tempoRestante, transaction.identifier);
+            }
         }
-      }
 
-      if (tempoRestante <= 0) {
-        clearInterval(timerInterval);
-        timerEl.textContent = "⏱️ 00:00";
-        tempoEl.textContent = "Tempo esgotado. Gere um novo Pix.";
-        document.getElementById("statusPix").innerHTML =
-          '⏰ Tempo esgotado! Clique em "Tentar novamente"';
-        showToast("⏰ Tempo esgotado! Gere um novo Pix.", "warning");
-        
-        SESSION_STATE.clearTimerState();
-        
-        trackEvent('pix_timer_expired', {
-          transaction_id: syncpay.transaction?.identifier || 'unknown'
-        });
-      }
-
-      tempoRestante--;
+        // Quando o tempo acaba (5 minutos)
+        if (tempoRestante <= 0) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            
+            // Mostra um toast avisando que o tempo acabou
+            showToast("⏰ Tempo de pagamento esgotado! Gere um novo Pix.", "warning");
+            
+            // Atualiza o status visual (se existir)
+            const statusPix = document.getElementById("statusPix");
+            if (statusPix) {
+                statusPix.innerHTML = '⏰ Tempo esgotado! Clique em "Tentar novamente"';
+            }
+            
+            // Habilita o botão novamente
+            const btn = document.getElementById("btnPagar");
+            if (btn) {
+                btn.textContent = "🔓 Gerar novo Pix";
+                btn.disabled = false;
+                btn.style.background = "linear-gradient(135deg, #ff6542, #ff4d1a)";
+                btn.style.color = "white";
+            }
+            
+            // Limpa o estado do timer
+            SESSION_STATE.clearTimerState();
+            
+            // Para o monitoramento do pagamento
+            syncpay.pararMonitoramento();
+            
+            trackEvent('pix_timer_expired', {
+                transaction_id: syncpay.transaction?.identifier || 'unknown'
+            });
+        }
     }, 1000);
-  }
+}
 
   function verificarPagamentoExistente() {
     if (SESSION_STATE.isPaymentCompleted()) {
@@ -4808,20 +5547,6 @@ const eventMap = {
     trackScroll();
     trackTimeOnPage();
 
-    const cpfInput = document.getElementById("inputCPF");
-    const telefoneInput = document.getElementById("inputTelefone");
-
-    if (cpfInput) {
-      cpfInput.addEventListener("input", function () {
-        this.value = this.value.replace(/\D/g, "");
-      });
-    }
-
-    if (telefoneInput) {
-      telefoneInput.addEventListener("input", function () {
-        this.value = this.value.replace(/\D/g, "");
-      });
-    }
 
     document.querySelectorAll(".faq-question").forEach((button) => {
       button.addEventListener("click", function () {
@@ -4886,6 +5611,8 @@ const eventMap = {
   window.trackGA4Event = trackGA4Event;
   window.trackMetaEvent = trackMetaEvent;
   window.trackEvent = trackEvent;
+  window.mostrarPix = mostrarPix;
+  window.resetarModal = resetarModal;
 </script>
   </body>
 </html>
